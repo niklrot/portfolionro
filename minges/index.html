@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Instagram Mockup - Niklas Rothweiler</title>
+  <link rel="icon" type="image/jpeg" href="medien/profile.jpg">
+  <style>
+    /* RESET & BASICS */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: #000000;
+      color: #f5f5f5;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+    }
+
+    /* CONTAINER */
+    .app-container {
+      width: 100%;
+      max-width: 470px; /* Standard für Handy */
+      background-color: #000000;
+      min-height: 100vh;
+      border-left: 1px solid #262626;
+      border-right: 1px solid #262626;
+      padding-bottom: 60px;
+      position: relative;
+      margin: 0 auto;
+    }
+
+    /* HEADER / PROFILBEREICH */
+    .profile-header {
+      padding: 20px 16px 10px 16px;
+    }
+
+    .top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .username {
+      font-weight: 600;
+      font-size: 20px;
+      color: #f5f5f5;
+    }
+
+    .profile-info {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .profile-pic-container {
+      margin-right: 28px;
+      flex-shrink: 0;
+    }
+
+    .profile-pic {
+      width: 77px;
+      height: 77px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1px solid #262626;
+      display: block;
+    }
+
+    .stats {
+      display: flex;
+      justify-content: space-around;
+      flex-grow: 1;
+      text-align: center;
+    }
+
+    .stat-item .num {
+      font-weight: 600;
+      font-size: 16px;
+      display: block;
+    }
+
+    .stat-item .label {
+      font-size: 13px;
+      color: #a8a8a8;
+    }
+
+    /* BIO */
+    .bio {
+      font-size: 14px;
+      line-height: 1.4;
+      margin-bottom: 15px;
+    }
+
+    .bio-name {
+      font-weight: 600;
+    }
+
+    /* BUTTONS */
+    .action-buttons {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 15px;
+    }
+
+    .btn {
+      flex: 1;
+      padding: 7px 0;
+      border-radius: 8px;
+      border: none;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      transition: background-color 0.2s, color 0.2s;
+    }
+
+    .btn-primary {
+      background-color: #0095f6;
+      color: #ffffff;
+    }
+
+    .btn-secondary {
+      background-color: #363636;
+      color: #f5f5f5;
+    }
+
+    /* HIGHLIGHTS */
+    .highlights-container {
+      display: flex;
+      gap: 18px;
+      padding: 10px 16px 15px 16px;
+      overflow-x: auto;
+      border-bottom: 1px solid #262626;
+    }
+
+    .highlights-container::-webkit-scrollbar {
+      display: none;
+    }
+
+    .highlight-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex-shrink: 0;
+    }
+
+    .highlight-circle {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      padding: 2px;
+      border: 1px solid #555555;
+      margin-bottom: 4px;
+    }
+
+    .highlight-img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .highlight-title {
+      font-size: 12px;
+      color: #a8a8a8;
+    }
+
+    /* TAB LEISTE */
+    .tabs {
+      display: flex;
+      border-bottom: 1px solid #262626;
+    }
+
+    .tab {
+      flex: 1;
+      text-align: center;
+      padding: 12px 0;
+      cursor: pointer;
+    }
+
+    .tab.active {
+      border-bottom: 2px solid #f5f5f5;
+    }
+
+    .tab svg {
+      width: 24px;
+      height: 24px;
+      fill: #8e8e8e;
+    }
+
+    .tab.active svg {
+      fill: #f5f5f5;
+    }
+
+    /* GRID (Standard: Handy 3 Spalten) */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 3px;
+      background-color: #000000;
+    }
+
+    .grid-item {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      background-color: #262626;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .grid-item img,
+    .grid-item video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .reel-badge, .carousel-badge {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      width: 18px;
+      height: 18px;
+      fill: #ffffff;
+      filter: drop-shadow(0px 1px 2px rgba(0,0,0,0.5));
+      pointer-events: none;
+    }
+
+    /* BOTTOM APP NAVIGATION */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      max-width: 470px; /* Standard für Handy */
+      height: 48px;
+      background-color: #000000;
+      border-top: 1px solid #262626;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      z-index: 10;
+    }
+
+    .bottom-nav svg {
+      width: 24px;
+      height: 24px;
+      fill: #f5f5f5;
+    }
+
+    /* PC BZW. DESKTOP ANPASSUNGEN (Ab 768px Breite) */
+    @media (min-width: 768px) {
+      .app-container {
+        max-width: 1000px; /* Breite Ansicht auf dem PC */
+      }
+      
+      .bottom-nav {
+        max-width: 1000px; /* Passt sich der neuen Breite an */
+      }
+
+      /* 4er Grid für PC */
+      .grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 8px; /* Auf dem großen Bildschirm sieht etwas mehr Abstand besser aus */
+      }
+
+      /* Zentriert den Profilkopf, damit er nicht unangenehm breit gestreckt wird */
+      .profile-header-content {
+        max-width: 600px;
+        margin: 0 auto; 
+      }
+
+      /* Highlights werden auf PC schöner zentriert */
+      .highlights-container {
+        justify-content: center;
+        gap: 30px;
+      }
+    }
+
+    /* MODAL CONTAINER (Pop-Up) */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: rgba(0, 0, 0, 0.9);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 15px;
+      right: 25px;
+      color: #ffffff;
+      font-size: 32px;
+      font-weight: bold;
+      cursor: pointer;
+      user-select: none;
+      z-index: 1001;
+    }
+
+    /* DESKTOP MODAL LAYOUT */
+    .modal-content {
+      display: flex;
+      flex-direction: row;
+      max-width: 900px;
+      width: 100%;
+      max-height: 80vh;
+      background-color: #000000;
+      border: 1px solid #262626;
+      border-radius: 4px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    #modalMedia {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      background-color: #000000;
+      overflow: hidden;
+    }
+
+    #modalMedia img,
+    #modalMedia video {
+      max-width: 100%;
+      max-height: 80vh;
+      object-fit: contain;
+    }
+
+    /* SIDEBAR (Caption) */
+    .modal-sidebar {
+      width: 320px;
+      background-color: #121212; 
+      border-left: 1px solid #262626;
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+    }
+
+    .modal-sidebar-header {
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid #262626;
+    }
+
+    .modal-sidebar-header img {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      margin-right: 12px;
+      object-fit: cover;
+    }
+
+    .modal-sidebar-body {
+      padding: 16px;
+      display: flex;
+      align-items: flex-start;
+      overflow-y: auto;
+    }
+
+    .modal-sidebar-body img {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      margin-right: 12px;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+
+    .caption-text {
+      font-size: 14px;
+      line-height: 1.5;
+      color: #f5f5f5;
+    }
+
+    .caption-text .username {
+      font-size: 14px;
+      margin-right: 5px;
+    }
+
+    /* KARUSSELL STYLES FÜR MODAL */
+    .carousel-nav {
+      position: absolute;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      top: 50%;
+      transform: translateY(-50%);
+      pointer-events: none;
+      padding: 0 10px;
+    }
+
+    .nav-btn {
+      pointer-events: auto;
+      background: rgba(255,255,255,0.7);
+      color: #000;
+      border: none;
+      padding: 8px 12px;
+      cursor: pointer;
+      font-size: 20px;
+      border-radius: 50%;
+    }
+
+    .nav-btn:hover {
+      background: rgba(255,255,255,1);
+    }
+
+    .carousel-indicators {
+      position: absolute;
+      bottom: 15px;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .dot {
+      height: 6px;
+      width: 6px;
+      background-color: rgba(255, 255, 255, 0.4);
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .dot.active {
+      background-color: #ffffff;
+    }
+
+    /* RESPONSIVE MODAL: Auf dem Handy untereinander stapeln */
+    @media (max-width: 768px) {
+      .modal-content {
+        flex-direction: column;
+        max-height: 90vh;
+        overflow-y: auto;
+      }
+      .modal-sidebar {
+        width: 100%;
+        border-left: none;
+        border-top: 1px solid #262626;
+        min-height: 150px;
+      }
+      #modalMedia img,
+      #modalMedia video {
+        max-height: 50vh;
+      }
+      .close-btn {
+        top: 5px;
+        right: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-container">
+
+    <!-- PROFIL HEADER -->
+    <div class="profile-header">
+      <!-- Neuer Wrapper für das Zentrieren auf dem PC -->
+      <div class="profile-header-content">
+        <div class="top-bar">
+          <span class="username">@mockup_minges</span>
+        </div>
+
+        <div class="profile-info">
+          <div class="profile-pic-container">
+            <img src="medien/profile.jpg" alt="Profilbild" class="profile-pic">
+          </div>
+          <div class="stats">
+            <div class="stat-item">
+              <span class="num">12</span>
+              <span class="label">Beiträge</span>
+            </div>
+            <div class="stat-item">
+              <span class="num">11,6 Tsd.</span>
+              <span class="label">Follower</span>
+            </div>
+            <div class="stat-item">
+              <span class="num">446</span>
+              <span class="label">Gefolgt</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="bio">
+          <div class="bio-name">KRÄFTIG, AROMATISCH, BAYRISCH!</div>
+          🛍️ Fabrikverkauf Breitengüßbach | Industriering 17<br>
+          ☕️ Stammhaus Bamberg | Karolinenstraße 9<br>
+          <a href="https://minges-kaffee.de/">www.mingers-kaffee.de</a> 
+        </div>
+
+        <!-- BUTTONS (Mailto-Link mit target="_blank" versehen) -->
+        <div class="action-buttons">
+          <button id="followBtn" class="btn btn-primary" onclick="toggleFollow()">Folgen</button>
+          <a href="mailto:niklas.rothweiler@gmail.com" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">Nachricht</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- HIGHLIGHTS -->
+    <div class="highlights-container">
+      <div class="highlight-item">
+        <div class="highlight-circle">
+          <img src="medien/h1.jpg" alt="Highlight 1" class="highlight-img">
+        </div>
+        <span class="highlight-title">FAQs</span>
+      </div>
+      <div class="highlight-item">
+        <div class="highlight-circle">
+          <img src="medien/h2.jpg" alt="Highlight 2" class="highlight-img">
+        </div>
+        <span class="highlight-title">Stammhaus</span>
+      </div>
+      <div class="highlight-item">
+        <div class="highlight-circle">
+          <img src="medien/h3.jpg" alt="Highlight 3" class="highlight-img">
+        </div>
+        <span class="highlight-title">Insights</span>
+      </div>
+      <div class="highlight-item">
+        <div class="highlight-circle">
+          <img src="medien/h4.jpg" alt="Highlight 4" class="highlight-img">
+        </div>
+        <span class="highlight-title">Community</span>
+      </div>
+    </div>
+
+    <!-- TAB LEISTE -->
+    <div class="tabs">
+      <div class="tab active">
+        <svg viewBox="0 0 24 24"><path d="M3 3h8v8H3zm10 0h8v8h-8zM3 13h8v8H3zm10 0h8v8h-8z"/></svg>
+      </div>
+      <div class="tab">
+        <svg viewBox="0 0 24 24"><path d="M12 2B10 2 2 10 2 12s8 10 10 10 10-8 10-10S14 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
+      </div>
+    </div>
+
+    <!-- 12ER GRID -->
+    <div class="grid">
+      <!-- Zeile 1 -->
+      <div class="grid-item" onclick="openPost(1)">
+        <img src="medien/1.1.jpg" alt="Beitrag 1">
+        <svg class="carousel-badge" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path d="M4 10v28h28V10H4zm24 24H8V14h20v20zm16-20h-4V8H14V4h26v26h-4v-4z"/></svg>
+      </div>
+      <div class="grid-item" onclick="openPost(2)">
+        <video preload="metadata">
+          <source src="medien/2.mp4#t=0.1" type="video/mp4">
+        </video>
+        <svg class="reel-badge" viewBox="0 0 24 24"><path d="M12 2B10 2 2 10 2 12s8 10 10 10 10-8 10-10S14 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
+      </div>
+      <div class="grid-item" onclick="openPost(3)">
+        <img src="medien/3.jpg" alt="Beitrag 3">
+      </div>
+
+      <!-- Zeile 2 -->
+      <div class="grid-item" onclick="openPost(4)">
+        <img src="medien/4.jpg" alt="Beitrag 4">
+      </div>
+      <div class="grid-item" onclick="openPost(5)">
+        <video preload="metadata">
+          <source src="medien/5.mp4#t=1" type="video/mp4">
+        </video>
+        <svg class="reel-badge" viewBox="0 0 24 24"><path d="M12 2B10 2 2 10 2 12s8 10 10 10 10-8 10-10S14 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
+      </div>
+      <div class="grid-item" onclick="openPost(6)">
+        <img src="medien/6.1.jpg" alt="Beitrag 6">
+        <svg class="carousel-badge" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path d="M4 10v28h28V10H4zm24 24H8V14h20v20zm16-20h-4V8H14V4h26v26h-4v-4z"/></svg>
+      </div>
+
+      <!-- Zeile 3 -->
+      <div class="grid-item" onclick="openPost(7)">
+        <img src="medien/7.jpg" alt="Beitrag 7">
+      </div>
+      <div class="grid-item" onclick="openPost(8)">
+        <img src="medien/8.1.jpg" alt="Beitrag 8">
+        <svg class="carousel-badge" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path d="M4 10v28h28V10H4zm24 24H8V14h20v20zm16-20h-4V8H14V4h26v26h-4v-4z"/></svg>
+      </div>
+      <div class="grid-item" onclick="openPost(9)">
+        <img src="medien/9.jpg" alt="Beitrag 9">
+      </div>
+
+      <!-- Zeile 4 -->
+      <div class="grid-item" onclick="openPost(10)">
+        <img src="medien/10.jpg" alt="Beitrag 10">
+      </div>
+      <div class="grid-item" onclick="openPost(11)">
+        <img src="medien/11.jpg" alt="Beitrag 11">
+      </div>
+      <div class="grid-item" onclick="openPost(12)">
+        <img src="medien/12.jpg" alt="Beitrag 12">
+      </div>
+    </div>
+
+    <!-- BOTTOM APP NAVIGATION -->
+    <div class="bottom-nav">
+      <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+      <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+      <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+      <svg viewBox="0 0 24 24"><path d="M18 4l2 4h-3l-2-4h-2l2 4h-3l-2-4H8l2 4H7L5 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4h-4z"/></svg>
+      <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
+    </div>
+
+  </div>
+
+  <!-- MODAL CONTAINER (Pop-Up) -->
+  <div id="mediaModal" class="modal" onclick="closeModal(event)">
+    <span class="close-btn" onclick="forceCloseModal()">&times;</span>
+    <div class="modal-content">
+      
+      <!-- Linke Seite: Bild / Video -->
+      <div id="modalMedia"></div>
+
+      <!-- Rechte Seite: Sidebar mit Text (wie bei Instagram Desktop) -->
+      <div class="modal-sidebar">
+        <!-- Header in der Sidebar -->
+        <div class="modal-sidebar-header">
+          <img src="medien/profile.jpg" alt="Profil">
+          <span class="username">@mockup_minges</span>
+        </div>
+        <!-- Textbereich -->
+        <div class="modal-sidebar-body">
+          <img src="medien/profile.jpg" alt="Profil">
+          <div class="caption-text">
+            <span class="username">@mockup_minges</span>
+            <span id="modalCaption"></span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+<!-- JAVASCRIPT -->
+    <script>
+      // FAKE-FOLLOW FUNKTION
+      function toggleFollow() {
+        const btn = document.getElementById('followBtn');
+        if (btn.classList.contains('btn-primary')) {
+          btn.classList.remove('btn-primary');
+          btn.classList.add('btn-secondary');
+          btn.innerText = 'Abonniert';
+        } else {
+          btn.classList.remove('btn-secondary');
+          btn.classList.add('btn-primary');
+          btn.innerText = 'Folgen';
+        }
+      }
+
+      // DATENSTRUKTUR MIT ENGLISCHEN CAPTIONS (Analog zu Weyermann)
+      const postsData = {
+        1: { 
+          type: 'carousel', 
+          src: ['medien/1.1.jpg', 'medien/1.2.jpg', 'medien/1.3.jpg'], 
+          caption: 'DE: Coffee with a view! ✨ Es gibt kaum etwas Schöneres, als den Tag mit einem Cappuccino zu beginnen und das Treiben in der Altstadt zu beobachten. Milchschaum trifft auf Röstkaffee. Startet ihr euren Tag lieber klassisch schwarz oder mit viel Milch? ☕\n\nEN: Coffee with a view! ✨ There is hardly anything better than starting the day with a cappuccino and watching the hustle and bustle in the old town. Milk foam meets roast coffee. Do you prefer starting your day classic black or with plenty of milk? ☕\n\n#cappuccino #coffeewithaview #minges #bamberg #kaffeeliebe' 
+        },
+        2: { 
+          type: 'video', 
+          src: 'medien/2.mp4', 
+          caption: 'DE: Kaffeetradition seit über 90 Jahren!🎥 Unsere Geschichte von 1932 bis heute. Wann hattest du deinen ersten Minges Kaffee?\n\nEN: Coffee tradition for over 90 years! 🎥 Our history from 1932 to today. When did you have your first Minges coffee?\n\n#minges #kaffee #bamberg #kaffeerösterei #tradition' 
+        },
+        3: { 
+          type: 'image', 
+          src: 'medien/3.jpg', 
+          caption: 'DE: Versteckt im Grünen, aber unmöglich zu ignorieren! 🌿 Unser Minges Tiramisu Kaffee vereint feinstes Kaffeearoma mit italienischem Lebensgefühl.\n\nEN: Hidden in the green, but impossible to ignore! 🌿 Our Minges Tiramisu coffee combines finest coffee aroma with an Italian lifestyle.\n\n#mingeskaffee #tiramisu #tiramisukaffee #kaffee #flavoredcoffee #coffeetime' 
+        },
+        4: { 
+          type: 'image', 
+          src: 'medien/4.jpg', 
+          caption: 'DE: Ein Hauch von Eleganz in jeder Tasse. ✨ Entdeckt unsere Spezialitäten und lasst euch von der Vielfalt der Kaffeewelt verzaubern.\n\nEN: A touch of elegance in every cup. ✨ Discover our specialties and let yourself be enchanted by the diversity of the coffee world.\n\n#minges #premiumkaffee #kaffeezeit #genussmoment #bamberg' 
+        },
+        5: { 
+          type: 'video', 
+          src: 'medien/5.mp4', 
+          caption: 'DE: Der beste Sound am Morgen? Wenn der Kaffee in der Mokkakanne hochblubbert! ☕🔊 Wer von euch schwört bei der Zubereitung auch auf den absoluten Klassiker?\n\nEN: The best sound in the morning? When the coffee bubbles up in the Moka pot! ☕🔊 Who among you swears by the absolute classic for preparation?\n\n#minges #mokapot #espressokanne #kaffeezubereitung #morningcoffee' 
+        },
+        6: { 
+          type: 'carousel', 
+          src: ['medien/6.1.jpg', 'medien/6.2.jpg'], 
+          caption: 'DE: Tradition, die man schmecken und fühlen kann. Wische nach rechts, um einen kleinen Einblick in unser Stammhaus zu bekommen. 🤎\n\nEN: Tradition you can taste and feel. Swipe right to get a little insight into our main house. 🤎\n\n#minges #kaffee #bamberg #kaffeerösterei #coffeeculture' 
+        },
+        7: { 
+          type: 'image', 
+          src: 'medien/7.jpg', 
+          caption: 'DE: Was passt besser zu einem guten Kaffee als eine süße Verführung? 🍬 Unsere handgemachten Pralinen und Trüffel.\n\nEN: What goes better with a good coffee than a sweet temptation? 🍬 Our handmade pralines and truffles.\n\n#pralinen #sweettooth #kaffeeundkuchen #minges #genuss' 
+        },
+        8: { 
+          type: 'carousel', 
+          src: ['medien/8.1.jpg', 'medien/8.2.jpg'], 
+          caption: 'DE: Farbe bekennen bei der Kaffeezubereitung! 💙💚 Grün oder Blau, welcher Typ bist du?\n\nEN: Show your colors when preparing coffee! 💙💚 Green or blue, which type are you?\n\n#Minges #Kaffee #Bialetti #Sandkerwa #Bamberg' 
+        },
+        9: { 
+          type: 'image', 
+          src: 'medien/9.jpg', 
+          caption: 'DE: 🔥 Mit der traditionellen Trommelröstung geben wir unseren Bohnen die Zeit, die sie brauchen, um ihr volles Aroma zu entfalten.\n\nEN: 🔥 With traditional drum roasting, we give our beans the time they need to unfold their full aroma.\n\n#trommelröstung #kaffeerösterei #kaffee #kaffeebohnen #minges' 
+        },
+        10: { 
+          type: 'image', 
+          src: 'medien/10.jpg', 
+          caption: 'DE: Einfach mal innehalten und den Moment genießen. ☕ Ein guter Kaffee und der Blick in die Altstadt.\n\nEN: Just pause and enjoy the moment. ☕ A good coffee and the view of the old town.\n\n#coffeebreak #kaffeepause #bamberg #minges' 
+        },
+        11: { 
+          type: 'image', 
+          src: 'medien/11.jpg', 
+          caption: 'DE: Soo viel Auswahl. Bei uns findet garantiert jeder seine Lieblingssorte. 🤎 Komm vorbei im Stammhaus in Bamberg oder im Werksverkauf in Breitengüßbach.\n\nEN: So much choice. Everyone is guaranteed to find their favorite variety here. 🤎 Visit us at the main house in Bamberg or the factory outlet in Breitengüßbach.\n\n#kaffee #röstkaffee #minges #bamberg #kaffeeliebe' 
+        },
+        12: { 
+          type: 'image', 
+          src: 'medien/12.jpg', 
+          caption: 'DE: Die Essenz perfekten Kaffees. 🤎 Jede einzelne Bohne wird von uns mit Sorgfalt ausgewählt und geröstet.\n\nEN: The essence of perfect coffee. 🤎 Every single bean is carefully selected and roasted by us.\n\n#kaffee #röstkaffee #minges #bamberg #kaffeeliebe' 
+        }
+      };
+
+      let currentPostId = null;
+      let currentSlide = 0;
+
+      function openPost(id) {
+        currentPostId = id;
+        currentSlide = 0;
+        renderModal();
+        document.getElementById('mediaModal').style.display = 'flex';
+      }
+
+      function renderModal() {
+        const modalMedia = document.getElementById('modalMedia');
+        const captionBody = document.getElementById('modalCaption');
+        const post = postsData[currentPostId];
+        let content = '';
+
+        if (post.type === 'image') {
+          content = `<img src="${post.src}" alt="Vergrößerte Ansicht">`;
+        } 
+        else if (post.type === 'video') {
+          content = `
+            <video controls autoplay loop playsinline style="max-height: 80vh; width: 100%;">
+              <source src="${post.src}" type="video/mp4">
+            </video>`;
+        } 
+        else if (post.type === 'carousel') {
+          const hasPrev = currentSlide > 0;
+          const hasNext = currentSlide < post.src.length - 1;
+          
+          content = `
+            <img src="${post.src[currentSlide]}" alt="Slide ${currentSlide + 1}">
+            <div class="carousel-nav">
+              ${hasPrev ? `<button class="nav-btn" onclick="changeSlide(-1, event)">&#10094;</button>` : '<div></div>'}
+              ${hasNext ? `<button class="nav-btn" onclick="changeSlide(1, event)">&#10095;</button>` : '<div></div>'}
+            </div>
+            <div class="carousel-indicators">
+              ${post.src.map((_, index) => `<span class="dot ${index === currentSlide ? 'active' : ''}"></span>`).join('')}
+            </div>
+          `;
+        }
+
+        modalMedia.innerHTML = content;
+        captionBody.innerHTML = (post.caption || '').replace(/\n/g, '<br>');
+      }
+
+      function changeSlide(direction, event) {
+        event.stopPropagation();
+        currentSlide += direction;
+        renderModal();
+      }
+
+      function closeModal(event) {
+        if (event.target.id === 'mediaModal') {
+          forceCloseModal();
+        }
+      }
+
+      function forceCloseModal() {
+        const modal = document.getElementById('mediaModal');
+        const modalMedia = document.getElementById('modalMedia');
+        const captionBody = document.getElementById('modalCaption');
+        modal.style.display = 'none';
+        modalMedia.innerHTML = ''; 
+        captionBody.innerHTML = '';
+      }
+    </script>
+</body>
+</html>

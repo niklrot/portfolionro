@@ -1,0 +1,1303 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Instagram Mockup & Blog - Niklas Rothweiler</title>
+  <link rel="icon" type="image/jpeg" href="medien/profile.jpg">
+  
+  <style>
+    /* === RESET & ALLGEMEIN === */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background-color: #000000;
+      color: #f5f5f5;
+      min-height: 100vh;
+      transition: background-color 0.3s ease;
+    }
+
+    /* === SPRACHWECHSEL BUTTON (FIXIERT) === */
+    .lang-toggle-fixed {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(5px);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      color: #ffffff;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      padding: 8px 14px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      z-index: 2000;
+      text-transform: uppercase;
+    }
+    .lang-toggle-fixed:hover {
+      background: #ffffff;
+      color: #000000;
+    }
+    /* Anpassung des Buttons, wenn der helle Blog aktiv ist */
+    body.blog-active .lang-toggle-fixed {
+      background: rgba(255,255,255,0.8);
+      color: #262626;
+      border-color: #262626;
+    }
+    body.blog-active .lang-toggle-fixed:hover {
+      background: #262626;
+      color: #ffffff;
+    }
+
+    /* === 1. INSTAGRAM BEREICH === */
+    #instagram-view {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    .app-container {
+      width: 100%;
+      max-width: 470px;
+      background-color: #000000;
+      min-height: 100vh;
+      border-left: 1px solid #262626;
+      border-right: 1px solid #262626;
+      padding-bottom: 60px;
+      position: relative;
+      margin: 0 auto;
+    }
+
+    /* Header & Profil */
+    .profile-header {
+      padding: 20px 16px 10px 16px;
+    }
+
+    .top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .username {
+      font-weight: 600;
+      font-size: 20px;
+      color: #f5f5f5;
+    }
+
+    .profile-info {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .profile-pic-container {
+      margin-right: 28px;
+      flex-shrink: 0;
+    }
+
+    .profile-pic {
+      width: 77px;
+      height: 77px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1px solid #262626;
+      display: block;
+    }
+
+    .stats {
+      display: flex;
+      justify-content: space-around;
+      flex-grow: 1;
+      text-align: center;
+    }
+
+    .stat-item .num {
+      font-weight: 600;
+      font-size: 16px;
+      display: block;
+    }
+
+    .stat-item .label {
+      font-size: 13px;
+      color: #a8a8a8;
+    }
+
+    /* Bio */
+    .bio {
+      font-size: 14px;
+      line-height: 1.4;
+      margin-bottom: 15px;
+    }
+
+    .bio a {
+      color: #e0e0e0;
+      text-decoration: none;
+    }
+
+    .bio-name {
+      font-weight: 600;
+    }
+
+    /* Buttons */
+    .action-buttons {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 15px;
+    }
+
+    .btn {
+      flex: 1;
+      padding: 7px 0;
+      border-radius: 8px;
+      border: none;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      transition: background-color 0.2s, color 0.2s;
+    }
+
+    .btn-primary {
+      background-color: #0095f6;
+      color: #ffffff;
+    }
+
+    .btn-secondary {
+      background-color: #363636;
+      color: #f5f5f5;
+    }
+
+    /* Highlights */
+    .highlights-container {
+      display: flex;
+      gap: 18px;
+      padding: 10px 16px 15px 16px;
+      overflow-x: auto;
+      border-bottom: 1px solid #262626;
+    }
+
+    .highlights-container::-webkit-scrollbar {
+      display: none;
+    }
+
+    .highlight-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex-shrink: 0;
+    }
+
+    .highlight-circle {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      padding: 2px;
+      border: 1px solid #555555;
+      margin-bottom: 4px;
+    }
+
+    .highlight-img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .highlight-title {
+      font-size: 12px;
+      color: #a8a8a8;
+    }
+
+    /* Tab Leiste */
+    .tabs {
+      display: flex;
+      border-bottom: 1px solid #262626;
+    }
+
+    .tab {
+      flex: 1;
+      text-align: center;
+      padding: 12px 0;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .tab.active {
+      border-bottom: 2px solid #f5f5f5;
+    }
+
+    .tab svg {
+      width: 24px;
+      height: 24px;
+      fill: none;
+      stroke: #8e8e8e;
+    }
+
+    .tab.active svg {
+      stroke: #f5f5f5;
+    }
+
+    /* Grid */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 3px;
+      background-color: #000000;
+    }
+
+    .grid-item {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      background-color: #262626;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .grid-item img,
+    .grid-item video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .reel-badge {
+      position: absolute;
+      bottom: 8px;
+      left: 8px;
+      width: 20px;
+      height: 20px;
+      fill: white;
+      filter: drop-shadow(0px 0px 3px rgba(0,0,0,0.6)); 
+      pointer-events: none;
+    }
+
+    .carousel-badge {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      width: 18px;
+      height: 18px;
+      fill: #ffffff;
+      filter: drop-shadow(0px 1px 2px rgba(0,0,0,0.5));
+      pointer-events: none;
+    }
+
+    /* Bottom Nav */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      max-width: 470px;
+      height: 48px;
+      background-color: #000000;
+      border-top: 1px solid #262626;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      z-index: 10;
+    }
+
+    .bottom-nav svg {
+      width: 24px;
+      height: 24px;
+      fill: #f5f5f5;
+    }
+
+    /* Desktop Anpassungen */
+    @media (min-width: 768px) {
+      .app-container {
+        max-width: 1000px;
+      }
+      .bottom-nav {
+        max-width: 1000px;
+      }
+      .grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 8px;
+      }
+      .profile-header-content {
+        max-width: 600px;
+        margin: 0 auto; 
+      }
+      .highlights-container {
+        justify-content: center;
+        gap: 30px;
+      }
+    }
+
+    /* Insta Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: rgba(0, 0, 0, 0.9);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .modal-close-btn {
+      position: absolute;
+      top: 15px;
+      right: 25px;
+      color: #ffffff;
+      font-size: 32px;
+      font-weight: bold;
+      cursor: pointer;
+      user-select: none;
+      z-index: 1001;
+    }
+
+    .modal-content {
+      display: flex;
+      flex-direction: row;
+      max-width: 900px;
+      width: 100%;
+      max-height: 80vh;
+      background-color: #000000;
+      border: 1px solid #262626;
+      border-radius: 4px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    #modalMedia {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      background-color: #000000;
+      overflow: hidden;
+    }
+
+    #modalMedia img,
+    #modalMedia video {
+      max-width: 100%;
+      max-height: 80vh;
+      object-fit: contain;
+    }
+
+    .modal-sidebar {
+      width: 320px;
+      background-color: #121212; 
+      border-left: 1px solid #262626;
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+    }
+
+    .modal-sidebar-header {
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid #262626;
+    }
+
+    .modal-sidebar-header img {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      margin-right: 12px;
+      object-fit: cover;
+    }
+
+    .modal-sidebar-body {
+      padding: 16px;
+      display: flex;
+      align-items: flex-start;
+      overflow-y: auto;
+    }
+
+    .modal-sidebar-body img {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      margin-right: 12px;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+
+    .caption-text {
+      font-size: 14px;
+      line-height: 1.5;
+      color: #f5f5f5;
+    }
+
+    .carousel-nav {
+      position: absolute;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      top: 50%;
+      transform: translateY(-50%);
+      pointer-events: none;
+      padding: 0 10px;
+    }
+
+    .nav-btn {
+      pointer-events: auto;
+      background: rgba(255,255,255,0.7);
+      color: #000;
+      border: none;
+      padding: 8px 12px;
+      cursor: pointer;
+      font-size: 20px;
+      border-radius: 50%;
+    }
+
+    .carousel-indicators {
+      position: absolute;
+      bottom: 15px;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .dot {
+      height: 6px;
+      width: 6px;
+      background-color: rgba(255, 255, 255, 0.4);
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .dot.active {
+      background-color: #ffffff;
+    }
+
+
+    /* === 2. BLOG BEREICH === */
+    #blog-view {
+      display: none;
+      background-color: #ffffff;
+      background-image: url('medien/back.png');
+      background-repeat: repeat;
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      color: #262626;
+      min-height: 100vh;
+      width: 100%;
+    }
+
+    /* Zurück Button */
+    .back-to-ig {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      color: white;
+      z-index: 100;
+      cursor: pointer;
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.6);
+      background: rgba(0,0,0,0.4);
+      padding: 8px 16px;
+      border-radius: 20px;
+      backdrop-filter: blur(5px);
+    }
+
+    /* Hero Header */
+    .blog-hero {
+      height: 100vh;
+      width: 100%;
+      background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.7)), url('medien/blog_head.jpg');
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: white;
+      padding: 20px;
+    }
+
+    .hero-content h1 {
+      font-size: 48px;
+      margin-bottom: 20px;
+      font-weight: 700;
+    }
+
+    .hero-content p {
+      font-size: 18px;
+      max-width: 600px;
+      margin: 0 auto;
+      line-height: 1.6;
+      font-weight: 300;
+    }
+
+    /* Grid für die 3 Artikel Kacheln */
+    .article-grid {
+      max-width: 1200px;
+      margin: 80px auto;
+      padding: 0 20px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 40px;
+    }
+
+    .article-card {
+      cursor: pointer;
+      background-color: #ffffff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .article-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    .article-card img {
+      width: 100%;
+      height: 320px;
+      object-fit: cover;
+      margin-bottom: 20px;
+      border-radius: 4px;
+    }
+
+    .article-meta {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #888;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .article-meta span.line {
+      height: 1px;
+      background-color: #ddd;
+      flex-grow: 1;
+    }
+
+    .article-card h2 {
+      font-size: 20px;
+      margin-bottom: 12px;
+      line-height: 1.4;
+      color: #262626;
+    }
+
+    .read-more {
+      font-size: 12px;
+      text-transform: uppercase;
+      font-weight: 600;
+      color: #262626;
+      letter-spacing: 1px;
+    }
+
+    /* === 3. ARTIKEL VOLLBILD ANSICHT === */
+    #article-fullscreen {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #ffffff;
+      background-image: url('medien/back.png');
+      background-repeat: repeat;
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      color: #262626;
+      z-index: 1000;
+      overflow-y: auto;
+    }
+
+    .close-btn {
+      position: fixed;
+      top: 30px;
+      right: 30px;
+      font-size: 30px;
+      cursor: pointer;
+      color: #262626;
+      z-index: 1010;
+      background: rgba(255,255,255,0.9);
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .fullscreen-header {
+      width: 100%;
+      height: 60vh;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .fullscreen-content {
+      max-width: 800px;
+      margin: -100px auto 100px auto;
+      background: white;
+      padding: 60px;
+      position: relative;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      border-radius: 4px;
+    }
+
+    .fullscreen-content h1 {
+      font-size: 40px;
+      margin-bottom: 30px;
+      line-height: 1.2;
+    }
+
+    .fullscreen-content .text-body p {
+      font-size: 18px;
+      line-height: 1.8;
+      margin-bottom: 25px;
+      color: #444;
+    }
+
+    .fullscreen-content .text-body h3 {
+      font-size: 22px;
+      margin: 35px 0 15px 0;
+      color: #262626;
+    }
+
+    @media (max-width: 900px) {
+      .article-grid { grid-template-columns: 1fr; }
+      .hero-content h1 { font-size: 32px; }
+      .fullscreen-content { margin-top: 0; padding: 30px; }
+    }
+
+    /* === FOOTER CSS === */
+    .startseite-footer {
+      background-color: #f5f5f5; 
+      color: #262626;
+      padding: 60px 20px 40px 20px;
+      margin-top: 40px;
+      border-top: 1px solid #e0e0e0;
+      text-align: center;
+    }
+
+    .footer-content {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .footer-content h3 {
+      font-size: 20px;
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+
+    .footer-content p {
+      color: #666;
+      font-size: 15px;
+      margin-bottom: 25px;
+    }
+
+    .btn-mailto {
+      display: inline-block;
+      background-color: #262626;
+      color: #ffffff;
+      text-decoration: none;
+      padding: 12px 28px;
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 600;
+      border-radius: 4px;
+      transition: background-color 0.3s ease, transform 0.1s ease;
+    }
+
+    .btn-mailto:hover {
+      background-color: #d32f2f; 
+    }
+
+    .btn-mailto:active {
+      transform: scale(0.98);
+    }
+
+    .footer-bottom {
+      margin-top: 50px;
+      padding-top: 20px;
+      border-top: 1px solid #dcdcdc;
+      font-size: 12px;
+      color: #888;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Fixierter Sprach-Button für alle Ansichten -->
+  <button id="langToggleBtnFixed" class="lang-toggle-fixed" onclick="toggleLanguage()">EN</button>
+
+  <!-- ==========================================
+       1. INSTAGRAM VIEW
+       ========================================== -->
+  <div id="instagram-view">
+    <div class="app-container">
+
+      <!-- PROFIL HEADER -->
+      <div class="profile-header">
+        <div class="profile-header-content">
+          <div class="top-bar">
+            <span class="username">@mockup_weyermann</span>
+          </div>
+
+          <div class="profile-info">
+            <div class="profile-pic-container">
+              <img src="medien/profile.jpg" alt="Profilbild" class="profile-pic">
+            </div>
+            <div class="stats">
+              <div class="stat-item">
+                <span class="num">12</span>
+                <span class="label" data-de="Beiträge" data-en="Posts">Beiträge</span>
+              </div>
+              <div class="stat-item">
+                <span class="num">11,6 Tsd.</span>
+                <span class="label" data-de="Follower" data-en="Followers">Follower</span>
+              </div>
+              <div class="stat-item">
+                <span class="num">446</span>
+                <span class="label" data-de="Gefolgt" data-en="Following">Gefolgt</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="bio">
+            <div class="bio-name" data-de="Nahrungsmittel und Getränke" data-en="Food and Beverage">Nahrungsmittel und Getränke</div>
+            🗺️ Weyermann®️is the world leader in specialty malts<br>
+            5️⃣ gen family business<br>
+            🍻 Supplying #beer #whisky & #food industries<br>
+            Brennerstrasse 15-19, Bamberg, Germany 96052<br>
+            <a href="https://weyermann.de" target="_blank"> 🔗weyermann.de </a> 
+          </div>
+
+          <!-- BUTTONS -->
+          <div class="action-buttons">
+            <button id="followBtn" class="btn btn-primary" data-de="Folgen" data-en="Follow" onclick="toggleFollow()">Folgen</button>
+            <a href="mailto:niklas.rothweiler@gmail.com" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" data-de="Nachricht" data-en="Message">Nachricht</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- HIGHLIGHTS -->
+      <div class="highlights-container">
+        <div class="highlight-item">
+          <div class="highlight-circle"><img src="medien/h1.jpg" alt="Highlight 1" class="highlight-img"></div>
+          <span class="highlight-title">FAQs</span>
+        </div>
+        <div class="highlight-item">
+          <div class="highlight-circle"><img src="medien/h2.jpg" alt="Highlight 2" class="highlight-img"></div>
+          <span class="highlight-title" data-de="Stammhaus" data-en="Headquarters">Stammhaus</span>
+        </div>
+        <div class="highlight-item">
+          <div class="highlight-circle"><img src="medien/h3.jpg" alt="Highlight 3" class="highlight-img"></div>
+          <span class="highlight-title">Insights</span>
+        </div>
+        <div class="highlight-item">
+          <div class="highlight-circle"><img src="medien/h4.jpg" alt="Highlight 4" class="highlight-img"></div>
+          <span class="highlight-title">Community</span>
+        </div>
+      </div>
+
+      <!-- TAB LEISTE -->
+      <div class="tabs">
+        <div class="tab active">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 3h8v8H3zm10 0h8v8h-8zM3 13h8v8H3zm10 0h8v8h-8z"/></svg>
+        </div>
+        <!-- BLOG TAB ICON -->
+        <div class="tab" onclick="openBlog()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+            <polyline points="14 2 14 8 20 8"></polyline>
+            <line x1="16" y1="13" x2="8" y2="13"></line>
+            <line x1="16" y1="17" x2="8" y2="17"></line>
+            <line x1="10" y1="9" x2="8" y2="9"></line>
+          </svg>
+        </div>
+      </div>
+
+      <!-- 12ER GRID -->
+      <div class="grid">
+        <div class="grid-item" onclick="openPost(1)">
+          <img src="medien/1.1.jpg" alt="Beitrag 1">
+          <svg class="carousel-badge" viewBox="0 0 48 48"><path d="M4 10v28h28V10H4zm24 24H8V14h20v20zm16-20h-4V8H14V4h26v26h-4v-4z"/></svg>
+        </div>
+        <div class="grid-item" onclick="openPost(2)">
+          <video preload="metadata"><source src="medien/2.mp4#t=12" type="video/mp4"></video>
+          <svg class="reel-badge" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+        </div>
+        <div class="grid-item" onclick="openPost(3)">
+          <img src="medien/3.jpg" alt="Beitrag 3">
+        </div>
+        <div class="grid-item" onclick="openPost(4)">
+          <video preload="metadata"><source src="medien/4.mp4#t=0.1" type="video/mp4"></video>
+          <svg class="reel-badge" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+        </div>
+        <div class="grid-item" onclick="openPost(5)">
+          <video preload="metadata"><source src="medien/5.mp4#t=21" type="video/mp4"></video>
+          <svg class="reel-badge" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+        </div>
+        <div class="grid-item" onclick="openPost(6)">
+          <img src="medien/6.jpg" alt="Beitrag 6">
+          <svg class="carousel-badge" viewBox="0 0 48 48"><path d="M4 10v28h28V10H4zm24 24H8V14h20v20zm16-20h-4V8H14V4h26v26h-4v-4z"/></svg>
+        </div>
+        <div class="grid-item" onclick="openPost(7)">
+          <img src="medien/7.jpg" alt="Beitrag 7">
+        </div>
+        <div class="grid-item" onclick="openPost(8)">
+          <img src="medien/8.1.jpg" alt="Beitrag 8">
+          <svg class="carousel-badge" viewBox="0 0 48 48"><path d="M4 10v28h28V10H4zm24 24H8V14h20v20zm16-20h-4V8H14V4h26v26h-4v-4z"/></svg>
+        </div>
+        <div class="grid-item" onclick="openPost(9)">
+          <img src="medien/9.jpg" alt="Beitrag 9">
+        </div>
+        <div class="grid-item" onclick="openPost(10)">
+          <img src="medien/10.jpg" alt="Beitrag 10">
+        </div>
+        <div class="grid-item" onclick="openPost(11)">
+          <img src="medien/11.jpg" alt="Beitrag 11">
+        </div>
+        <div class="grid-item" onclick="openPost(12)">
+          <img src="medien/12.jpg" alt="Beitrag 12">
+        </div>
+      </div>
+
+      <!-- BOTTOM APP NAVIGATION -->
+      <div class="bottom-nav">
+        <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M18 4l2 4h-3l-2-4h-2l2 4h-3l-2-4H8l2 4H7L5 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4h-4z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- INSTAGRAM POST MODAL -->
+  <div id="mediaModal" class="modal" onclick="closeModal(event)">
+    <span class="modal-close-btn" onclick="forceCloseModal()">&times;</span>
+    <div class="modal-content">
+      <div id="modalMedia"></div>
+      <div class="modal-sidebar">
+        <div class="modal-sidebar-header">
+          <img src="medien/profile.jpg" alt="Profil">
+          <span class="username">@mockup_weyermann</span>
+        </div>
+        <div class="modal-sidebar-body">
+          <img src="medien/profile.jpg" alt="Profil">
+          <div class="caption-text">
+            <span class="username">@mockup_weyermann</span>
+            <span id="modalCaption"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ==========================================
+       2. BLOG VIEW
+       ========================================== -->
+  <div id="blog-view">
+    <div class="back-to-ig" onclick="closeBlog()">
+      <span>&#8592;</span> <span data-de="Zurück zu Instagram" data-en="Back to Instagram">Zurück zu Instagram</span>
+    </div>
+
+    <header class="blog-hero">
+      <div class="hero-content">
+        <h1 data-de="Ideen, Impulse & Handwerk" data-en="Ideas, Impulses & Craftsmanship">Ideen, Impulse & Handwerk</h1>
+        <p data-de="Eine Textprobe und konkrete Gedanken, wie ich mich und meine Begeisterung bei Weyermann® einbringen kann." data-en="A text sample and concrete thoughts on how I can contribute myself and my enthusiasm to Weyermann®.">Eine Textprobe und konkrete Gedanken, wie ich mich und meine Begeisterung bei Weyermann® einbringen kann.</p>
+      </div>
+    </header>
+
+    <section class="article-grid" id="grid-container">
+      <!-- Artikel werden dynamisch geladen -->
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="startseite-footer">
+      <div class="footer-content">
+        <h3 data-de="Lust auf ein persönliches Gespräch?" data-en="Care for a personal chat?">Lust auf ein persönliches Gespräch?</h3>
+        <p data-de="Ich freue mich über Feedback oder eine kurze Nachricht." data-en="I look forward to your feedback or a quick message.">Ich freue mich über Feedback oder eine kurze Nachricht.</p>
+        
+        <a href="mailto:niklas.rothweiler@gmail.com?subject=Kontaktanfrage über Portfolio" class="btn-mailto" data-de="Nachricht schreiben" data-en="Send Message">
+          Nachricht schreiben
+        </a>
+
+        <div class="footer-bottom">
+          <p data-de="© 2026 Niklas Rothweiler • Mit Begeisterung erstellt für Weyermann® Malz" data-en="© 2026 Niklas Rothweiler • Created with enthusiasm for Weyermann® Malts">© 2026 Niklas Rothweiler • Mit Begeisterung erstellt für Weyermann® Malz</p>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+
+  <!-- ==========================================
+       3. ARTIKEL VOLLBILD ANSICHT
+       ========================================== -->
+  <div id="article-fullscreen">
+    <div class="close-btn" onclick="closeArticle()">&#10005;</div>
+    
+    <div class="fullscreen-header" id="fs-header"></div>
+    
+    <div class="fullscreen-content">
+      <div class="article-meta" style="margin-bottom: 20px;">
+        <span id="fs-category" data-de="Kategorie" data-en="Category">Kategorie</span>
+        <span class="line"></span>
+        <span id="fs-date" data-de="Datum" data-en="Date">Datum</span>
+      </div>
+      <h1 id="fs-title" data-de="Titel des Artikels" data-en="Article Title">Titel des Artikels</h1>
+      <div class="text-body" id="fs-text">
+        <!-- Ausgelagerter Text -->
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ==========================================
+       JAVASCRIPT
+       ========================================== -->
+  <script src="artikel_daten.js"></script>
+
+  <script>
+    // --- HELPER FUNCTION FÜR HISTORY CONTROL ---
+    function pushState(viewName) {
+      history.pushState({ view: viewName }, '');
+    }
+
+    // --- INSTAGRAM FUNCTIONS ---
+    function toggleFollow() {
+      const btn = document.getElementById('followBtn');
+      if (btn.classList.contains('btn-primary')) {
+        // Zu "Abonniert / Following" wechseln
+        btn.classList.remove('btn-primary');
+        btn.classList.add('btn-secondary');
+        btn.setAttribute('data-de', 'Abonniert');
+        btn.setAttribute('data-en', 'Following');
+        btn.innerText = currentLang === 'de' ? 'Abonniert' : 'Following';
+      } else {
+        // Zu "Folgen / Follow" wechseln
+        btn.classList.remove('btn-secondary');
+        btn.classList.add('btn-primary');
+        btn.setAttribute('data-de', 'Folgen');
+        btn.setAttribute('data-en', 'Follow');
+        btn.innerText = currentLang === 'de' ? 'Folgen' : 'Follow';
+      }
+    }
+
+    const postsData = {
+      1: { 
+        type: 'carousel', 
+        src: ['medien/1.1.jpg', 'medien/1.2.jpg', 'medien/1.3.jpg'], 
+        caption: 'POV: Du blinzelst in der Frühlingssonne und auf einmal sieht die Welt so aus. ✨ Manchmal muss man die Perspektive wechseln – und natürlich das richtige Bier in der Hand haben. Welcher Ort ist euer Go-To Spot für ein Feierabendbier? \n\nPOV: You blink in the spring sun and suddenly the world looks like this. ✨ Sometimes you just need to change your perspective – and have the right beer in hand, of course. What\'s your go-to spot for an after-work drink?\n\n#pixelstretch #pov #feierabendbier #aesthetic #craftbeerlife' 
+      },
+      2: { 
+        type: 'video', 
+        src: 'medien/2.mp4', 
+        caption: 'Wait for the transition... 🔄 Von vintage Vibes direkt ins Hier und Jetzt. Wir können mehr als nur Bier! Habt ihr schon unsere Spirituosen von @weyermann-destillerie probiert? 🍸✨\n\nWait for the transition... 🔄 From vintage vibes straight into the here and now. We do more than just beer! Have you tried our spirits from @weyermann-destillerie yet? 🍸✨\n\n#transitionreels #mixology #drinkstagram #bartenderlife #weyermannmalts' 
+      },
+      3: { 
+        type: 'image', 
+        src: 'medien/3.jpg', 
+        caption: 'Touching grass? Wir sind schon einen Schritt weiter. 🌳 Back to the roots im wahrsten Sinne des Wortes. Bevor ein Schlotfegerla mit seinen Buchenholz-Rauchnoten im Glas begeistert, beginnt seine Reise in der Natur. Aus Wasser, Hopfen, Hefe und unserem Weyermann® Gerstenmalz entsteht das vollmundige, dunkle Rauchbier. \n\nTouching grass? We’re already one step ahead. 🌳 Back to the roots in the truest sense of the word. Before a Schlotfegerla delights with its beechwood smoke notes in the glass, its journey begins in nature. The full-bodied, dark smoked beer is created from water, hops, yeast, and our Weyermann® barley malt.\n\n#touchinggrass #backtotheroots #naturelovers #outdoorlife #craftbeer' 
+      },
+      4: { 
+        type: 'video', 
+        src: 'medien/4.mp4', 
+        caption: 'Gießt ihr eure Pflanzen auch schon mit Bier? 🪴🍺 (Pro-Tipp: Funktioniert auch super mit alkoholfreiem.)\n\nAre you watering your plants with beer yet? 🪴🍺 (Pro tip: Works great with non-alcoholic too.)\n\n#warnurspaßmanverschwendetkeinbier #justkiddingdontwastebeer #beerlovers #weyermannmalts' 
+      },
+      5: { 
+        type: 'video', 
+        src: 'medien/5.mp4', 
+        caption: 'Der perfekte Rhythmus. 🎶 Manchmal reicht das Knacken beim Öffnen der Dose, um den Takt für den Feierabend vorzugeben. Sound on! 🔊\n\nThe perfect rhythm. 🎶 Sometimes the simple *crack* of opening a can is all it takes to set the tempo for the evening. Craft meets the beat of everyday life. Sound on! 🔊\n\n#beertrend #runaway #beerstagram #weyermann #beeroclock' 
+      },
+      6: { 
+        type: 'image', 
+        src: 'medien/6.jpg', 
+        caption: 'Die Schaumkrone der Natur! 🌲 Wusstet ihr, dass ein guter, stabiler Bierschaum maßgeblich vom Eiweißgehalt des Malzes abhängt? Unsere Spezialmalze sorgen nicht nur für Farbe und Geschmack, sondern auch für die perfekte Krone auf eurem Bier. 👑 \n\nNature\'s foam head! 🌲 Did you know that a good, stable beer head depends heavily on the protein content of the malt? Our specialty malts not only provide color and flavor, but also the perfect crown on your beer. 👑\n\n#beerfoam #funfact #brewingknowledge #weyermannmalts #craftbeer #nature' 
+      },
+      7: { 
+        type: 'image', 
+        src: 'medien/7.jpg', 
+        caption: 'Romanticizing the little things. 💧 Wenn estnische Braukunst von @pohjalabeer auf die entspannte Natur trifft. Natürlich gebraut mit unseren Weyermann® Malzen.\n\nRomanticizing the little things. 💧 When Estonian brewing art by @pohjalabeer meets relaxed nature. Of course brewed with our Weyermann® malts. Take a deep breath and enjoy the weekend.\n\n#romanticizeyourlife #pohjalabeer #weekendvibes #aesthetic #relax' 
+      },
+      8: { 
+        type: 'carousel', 
+        src: ['medien/8.1.jpg', 'medien/8.2.jpg', 'medien/8.3.jpg', 'medien/8.4.jpg'], 
+        caption: 'Fest verwurzelt im guten Geschmack. 🌳 Unser alkoholfreies Pale Ale zeigt: Für volles Aroma braucht es keine Umdrehungen, sondern nur beste Zutaten direkt aus der Natur. Perfekt für die kleine Pause zwischendurch.\n\nFirmly rooted in great taste. 🌳 Our non-alcoholic Pale Ale proves: You don\'t need ABV for full flavor, just the best ingredients straight from nature. Perfect for a little break in between.\n\n#nonalcoholic #paleale #outdoorlife #brewerslife #weyermann' 
+      },
+      9: { 
+        type: 'carousel', 
+        src: ['medien/9.1.jpg', 'medien/9.2.jpg'], 
+        caption: 'Altstadt-Vibes. 🚪 Wenn man in Bamberg durch die Gassen spaziert, entdeckt man hinter fast jeder alten Holztür ein neues Stück Geschichte. Oder vielleicht die nächste gute Brauerei. 👀\n\nOld town vibes. 🚪 Strolling through the alleys of Bamberg, you\'ll discover a new piece of history behind almost every old wooden door. Or maybe the next good brewery. 👀\n\n#bamberg #weyermannmalts #vintagestyle #cityvibes #explore' 
+      },
+      10: { 
+        type: 'image', 
+        src: 'medien/10.jpg', 
+        caption: 'Sonne, Feierabend, Nr. 74 und eine Aussicht. ☀️ What more do you need?\n\nSun, after-work vibes, no. 74 and a view. ☀️ What more do you need?\n\n#weyermannmalts #fridayvibes #goldenhour #escapethecity' 
+      },
+      11: { 
+        type: 'image', 
+        src: 'medien/11.jpg', 
+        caption: 'Manchmal findet man die besten Schätze einfach am Wegesrand. 🌿 Ein versteckter Spot, ein kalter Drink und der perfekte Spaziergang durch die Stadt. Wer hält bei seinen Touren auch immer nach den schönsten Ecken Ausschau?\n\nSometimes you find the best treasures right by the wayside. 🌿 A hidden spot, a cold drink, and the perfect stroll through town. Who else is always keeping an eye out for the best hidden gems on their walks?\n\n#hiddengem #weyermannmalts #exploremore #citystroll #beer' 
+      },
+      12: { 
+        type: 'image', 
+        src: 'medien/12.jpg', 
+        caption: 'Nordische Vibes, fränkische Wurzeln. 🤝 @pohjalabeer\n\nNordic vibes, Franconian roots. 🤝 @pohjalabeer\n\n#collab #pohjala #cheers #craftbeercollab' 
+      },
+    };
+
+
+    let currentPostId = null;
+    let currentSlide = 0;
+
+    function openPost(id) {
+      currentPostId = id;
+      currentSlide = 0;
+      renderModal();
+      document.getElementById('mediaModal').style.display = 'flex';
+      pushState('post');
+    }
+
+    function renderModal() {
+      const modalMedia = document.getElementById('modalMedia');
+      const captionBody = document.getElementById('modalCaption');
+      const post = postsData[currentPostId];
+      if(!post) return;
+      let content = '';
+
+      if (post.type === 'image') {
+        content = `<img src="${post.src}" alt="Ansicht">`;
+      } else if (post.type === 'video') {
+        content = `<video controls autoplay loop playsinline style="max-height: 80vh; width: 100%;"><source src="${post.src}" type="video/mp4"></video>`;
+      } else if (post.type === 'carousel') {
+        const hasPrev = currentSlide > 0;
+        const hasNext = currentSlide < post.src.length - 1;
+        content = `
+          <img src="${post.src[currentSlide]}" alt="Slide ${currentSlide + 1}">
+          <div class="carousel-nav">
+            ${hasPrev ? `<button class="nav-btn" onclick="changeSlide(-1, event)">&#10094;</button>` : '<div></div>'}
+            ${hasNext ? `<button class="nav-btn" onclick="changeSlide(1, event)">&#10095;</button>` : '<div></div>'}
+          </div>
+          <div class="carousel-indicators">
+            ${post.src.map((_, index) => `<span class="dot ${index === currentSlide ? 'active' : ''}"></span>`).join('')}
+          </div>
+        `;
+      }
+
+      modalMedia.innerHTML = content;
+      captionBody.innerHTML = (post.caption || '').replace(/\n/g, '<br>');
+    }
+
+    function changeSlide(direction, event) {
+      event.stopPropagation();
+      currentSlide += direction;
+      renderModal();
+    }
+
+    function closeModal(event) {
+      if (event.target.id === 'mediaModal') {
+        forceCloseModal();
+      }
+    }
+
+    function forceCloseModal() {
+      if (history.state && history.state.view === 'post') {
+        history.back();
+      } else {
+        hideModal();
+      }
+    }
+
+    function hideModal() {
+      const modal = document.getElementById('mediaModal');
+      document.getElementById('modalMedia').innerHTML = ''; 
+      document.getElementById('modalCaption').innerHTML = '';
+      modal.style.display = 'none';
+    }
+
+
+    // --- BLOG & SWITCH FUNCTIONS ---
+    const instagramView = document.getElementById('instagram-view');
+    const blogView = document.getElementById('blog-view');
+    const gridContainer = document.getElementById('grid-container');
+    const articleFullscreen = document.getElementById('article-fullscreen');
+
+    function openBlog() {
+      instagramView.style.display = 'none';
+      blogView.style.display = 'block';
+      document.body.classList.add('blog-active'); // Neu: Für die Button-Farbe
+      window.scrollTo(0, 0);
+      pushState('blog');
+    }
+
+    function closeBlog() {
+      if (history.state && history.state.view === 'blog') {
+        history.back();
+      } else {
+        hideBlog();
+      }
+    }
+
+    function hideBlog() {
+      blogView.style.display = 'none';
+      instagramView.style.display = 'flex';
+      document.body.style.backgroundColor = '#000000';
+      document.body.classList.remove('blog-active'); // Neu: Für die Button-Farbe
+      window.scrollTo(0, 0);
+    }
+// --- SPRACHWECHSEL (DE / EN) ---
+    let currentLang = 'de';
+    function toggleLanguage() {
+      currentLang = currentLang === 'de' ? 'en' : 'de';
+      
+      // 1. Statische HTML-Texte aktualisieren
+      document.querySelectorAll('[data-de]').forEach(el => {
+        el.innerHTML = el.getAttribute(`data-${currentLang}`);
+      });
+      
+      // 2. Button Text aktualisieren
+      const langBtn = document.getElementById('langToggleBtnFixed');
+      if (langBtn) {
+        langBtn.textContent = currentLang === 'de' ? 'EN' : 'DE';
+      }
+
+      // 3. Blog-Grid neu laden, damit Titel, Kategorie und Teaser wechseln.
+      ladeArtikelInsGrid();
+
+      // 4. Falls gerade ein Artikel geöffnet ist, auch dessen Inhalt sofort übersetzen.
+      if (articleFullscreen.style.display === 'block' && currentArticleId !== null) {
+        openArticle(currentArticleId, true);
+      }
+    }
+
+    // Liest die passende Sprachversion aus dem flachen Datenmodell in artikel_daten.js.
+    // Die Datei verwendet z. B. titel + titelEn, teaser + teaserEn usw.
+    function getArticleText(artikel, key) {
+      if (currentLang === 'en') {
+        return artikel[`${key}En`] ?? artikel[key] ?? '';
+      }
+      return artikel[key] ?? '';
+    }
+
+    function ladeArtikelInsGrid() {
+      gridContainer.innerHTML = '';
+      if (typeof meineArtikel !== 'undefined') {
+        meineArtikel.forEach((artikel, index) => {
+          const card = document.createElement('div');
+          card.className = 'article-card';
+          card.onclick = () => openArticle(index);
+
+          const titelText = getArticleText(artikel, 'titel');
+          const teaserText = getArticleText(artikel, 'teaser');
+          const kategorieText = getArticleText(artikel, 'kategorie');
+          const readMoreText = currentLang === 'de' ? '— Mehr lesen' : '— Read more';
+
+          card.innerHTML = `
+            <img src="${artikel.thumbBild}" alt="Vorschaubild">
+            <div class="article-meta">
+              <span>${kategorieText}</span>
+              <span class="line"></span>
+              <span>${artikel.datum}</span>
+            </div>
+            <h2>${titelText}</h2>
+            <p style="font-size: 14px; color: #666; margin-bottom: 12px; line-height: 1.5;">${teaserText}</p>
+            <div class="read-more">${readMoreText}</div>
+          `;
+          gridContainer.appendChild(card);
+        });
+      }
+    }
+
+    function openArticle(id, fromLanguageSwitch = false) {
+      const artikel = meineArtikel[id];
+      currentArticleId = id;
+      if (!artikel) return;
+
+      const titelText = getArticleText(artikel, 'titel');
+      const kategorieText = getArticleText(artikel, 'kategorie');
+      const textInhalt = getArticleText(artikel, 'text');
+
+      document.getElementById('fs-header').style.backgroundImage = `url('${artikel.headBild}')`;
+      document.getElementById('fs-category').innerText = kategorieText;
+      document.getElementById('fs-date').innerText = artikel.datum;
+      document.getElementById('fs-title').innerText = titelText;
+      document.getElementById('fs-text').innerHTML = textInhalt;
+
+      // Beim Umschalten der Sprache soll ein bereits geöffneter Artikel offen bleiben.
+      if (!fromLanguageSwitch) {
+        blogView.style.display = 'none';
+        articleFullscreen.style.display = 'block';
+        window.scrollTo(0, 0);
+        pushState('article');
+      }
+    }
+    function closeArticle() {
+      if (history.state && history.state.view === 'article') {
+        history.back();
+      } else {
+        hideArticle();
+      }
+    }
+
+    function hideArticle() {
+      articleFullscreen.style.display = 'none';
+      currentArticleId = null;
+      blogView.style.display = 'block';
+      window.scrollTo(0, 0);
+    }
+
+    // --- POPSTATE EVENT HANDLER FOR BROWSER / MOUSE BACK BUTTON ---
+    window.addEventListener('popstate', () => {
+      if (articleFullscreen.style.display === 'block') {
+        hideArticle();
+      } 
+      else if (document.getElementById('mediaModal').style.display === 'flex') {
+        hideModal();
+      } 
+      else if (blogView.style.display === 'block') {
+        hideBlog();
+      }
+    });
+
+    window.onload = () => {
+      ladeArtikelInsGrid();
+    };
+  </script>
+</body>
+</html>

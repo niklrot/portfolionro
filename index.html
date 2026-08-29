@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio - Niklas Rothweiler</title>
+  <link rel="icon" type="image/png" href="media/profile.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=Fraunces:ital,wght@1,500&display=swap" rel="stylesheet">
+  
+  <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+
+  <style>
+    /* === DESIGN TOKENS === */
+    :root {
+      --bg: #0a0a0b;
+      --surface: rgba(255, 255, 255, 0.045);
+      --surface-strong: rgba(255, 255, 255, 0.09);
+      --border: rgba(255, 255, 255, 0.1);
+      --border-strong: rgba(255, 255, 255, 0.28);
+      --accent: #7ba4d4;
+      --accent-soft: rgba(123, 164, 212, 0.35);
+      --text: #f2f2f2;
+      --text-dim: #9a9a9a;
+      --font-display: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-body: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --font-serif: 'Fraunces', Georgia, serif;
+      --edge-pad: clamp(20px, 4vw, 70px);
+    }
+
+    /* === GRUNDLAYOUT === */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { }
+    body {
+      font-family: var(--font-body);
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    h1, h2, h3 { font-family: var(--font-display); }
+    ::selection { background: var(--accent); color: #0a0a0b; }
+    a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 3px;
+    }
+    img { max-width: 100%; }
+
+    /* === TOP NAVIGATION === */
+    .top-nav {
+      position: fixed; top: 0; left: 0; width: 100%;
+      padding: 28px var(--edge-pad);
+      display: flex; justify-content: flex-end; align-items: center;
+      z-index: 1000;
+      transition: 0.5s ease, backdrop-filter 0.5s ease, padding 0.5s ease, box-shadow 0.5s ease, border-bottom 0.5s ease;
+      border-bottom: 1px solid transparent;
+    }
+    
+    .top-nav { background: transparent; box-shadow: none; }
+    
+    .top-nav.scrolled { 
+      background: rgba(10, 10, 11, 0.65); 
+      backdrop-filter: blur(16px) saturate(180%); 
+      -webkit-backdrop-filter: blur(16px) saturate(180%);
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08); 
+      padding-top: 18px; 
+      padding-bottom: 18px;
+    }
+
+    .nav-links { display: flex; gap: 35px; position: relative; }
+    .nav-links a {
+      color: rgba(255, 255, 255, 0.82);
+      text-decoration: none;
+      font-size: 13px; font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase;
+      transition: color 0.3s ease;
+      padding-bottom: 5px;
+      text-shadow: 0 1px 8px rgba(0, 0, 0, 0.5);
+    }
+    .nav-links a:hover, .nav-links a.active { color: #ffffff; }
+    .nav-indicator {
+      position: absolute; bottom: -2px; left: 0; height: 2px;
+      background-color: var(--accent);
+      transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+      width: 0px;
+    }
+    @media (max-width: 768px) {
+      .top-nav { padding: 18px 20px; justify-content: center; }
+      .nav-links { gap: 14px; flex-wrap: wrap; justify-content: center; }
+      .nav-links a { font-size: 11px; }
+      .nav-indicator { display: none; }
+    }
+
+    /* === SPRACHWECHSEL BUTTON === */
+    .lang-toggle {
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      color: #ffffff;
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      padding: 4px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-left: 15px;
+    }
+    .lang-toggle:hover {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #0a0a0b;
+    }
+
+    /* === HERO === */
+    .hero-header {
+      position: relative;
+      min-height: 120vh;
+      background: url('media/header.jpg') center 60% / cover no-repeat;
+      display: flex; align-items: center; justify-content: center;
+      color: #ffffff;
+      padding: 60px 40px;
+    }
+    .hero-overlay {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      background: linear-gradient(180deg, rgba(10,10,11,0.72) 0%, rgba(10,10,11,0.45) 45%, rgba(10,10,11,1) 100%);
+      z-index: 1;
+    }
+
+    .hero-identity {
+      position: absolute;
+      top: 32px; left: var(--edge-pad);
+      z-index: 3;
+      display: flex; align-items: center; gap: 12px;
+    }
+    
+    /* HIER PASST DU DIE LOGO-GRÖSSE AN */
+    .identity-avatar {
+      width: 50px; height: 50px;
+    }
+    
+    .identity-name { font-size: 15px; letter-spacing: 1px; color: rgba(255,255,255,0.9); font-weight: 500; }
+
+    .hero-content {
+      position: relative; z-index: 2; max-width: 1100px; width: 100%; text-align: left;
+      padding-top: 25vh; 
+    }
+    .hero-kicker {
+      font-size: 13px; letter-spacing: 3px; text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.75);
+      margin-bottom: 18px; font-weight: 500;
+      will-change: transform, opacity;
+    }
+    .hero-headline {
+      font-weight: 700;
+      will-change: transform, opacity;
+      font-size: clamp(38px, 7.5vw, 100px);
+      line-height: 1.02;
+      letter-spacing: -2px;
+    }
+    .hero-headline .line { display: block; }
+    .hero-headline .line-2 { margin-left: 8vw; }
+    .hero-headline .line-3 { margin-left: 3vw; color: var(--accent); }
+
+    .scroll-cue {
+      position: absolute; bottom: 36px; left: 50%; transform: translateX(-50%);
+      z-index: 2; width: 22px; height: 36px;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      display: flex; justify-content: center; padding-top: 8px;
+    }
+    .scroll-cue::before { content: ""; width: 3px; height: 8px; background: #fff; animation: scrollCue 1.8s ease infinite; }
+    @keyframes scrollCue { 0% { opacity: 1; transform: translateY(0); } 100% { opacity: 0; transform: translateY(10px); } }
+
+    /* === SECTIONS === */
+    .section-container {
+      width: 100%; max-width: 1800px; margin: 0 auto;
+      padding: 150px var(--edge-pad) 100px;
+      min-height: 100vh;
+      display: flex; flex-direction: column; justify-content: center;
+    }
+    .section-container.full-bleed {
+      max-width: none; padding-left: 0; padding-right: 0;
+    }
+    .section-container.full-bleed .section-title { margin-left: var(--edge-pad); margin-right: var(--edge-pad); }
+
+    .section-title {
+      font-size: 32px; text-transform: uppercase; letter-spacing: 2px;
+      margin-bottom: 50px; font-weight: 700; color: #ffffff;
+      border-left: 4px solid var(--accent); padding-left: 18px;
+    }
+
+    .reveal {
+      opacity: 0; transform: translateY(36px);
+      transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1), transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+      transition-delay: var(--d, 0s);
+    }
+    .reveal.in-view { opacity: 1; transform: translateY(0); }
+
+    /* === PROJEKTE - EDITORIAL LAYOUT === */
+    .project-track { display: grid; }
+    .project-slide {
+      grid-column: 1; grid-row: 1;
+      text-decoration: none; color: inherit;
+      opacity: 0; visibility: hidden; pointer-events: none;
+      transition: opacity 0.5s ease;
+    }
+    .project-slide.is-active { opacity: 1; visibility: visible; pointer-events: auto; }
+
+    .project-layout {
+      display: grid;
+      grid-template-columns: minmax(180px, 0.78fr) minmax(0, 1.7fr);
+      gap: clamp(24px, 5vw, 80px);
+      align-items: end;
+    }
+    .project-title-side {
+      align-self: center;
+      font-family: var(--font-display);
+      font-weight: 500;
+      font-size: clamp(52px, 9vw, 128px);
+      line-height: 0.82;
+      letter-spacing: -0.055em;
+      color: #fff;
+      overflow-wrap: anywhere;
+    }
+    .collage {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      aspect-ratio: 16 / 9;
+      background: #111;
+    }
+    .collage-img {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+      transition: transform 0.7s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    .project-slide:hover .collage-img { transform: scale(1.035); }
+    .collage-title {
+      position: absolute;
+      left: 3%; bottom: 2%;
+      font-family: var(--font-display);
+      font-weight: 500;
+      font-size: clamp(52px, 9vw, 128px);
+      line-height: 0.78;
+      letter-spacing: -0.055em;
+      color: #fff;
+      mix-blend-mode: difference;
+      max-width: 92%;
+    }
+    .project-meta {
+      margin-top: 12px;
+      margin-left: calc(min(0.78fr, 180px) + clamp(24px, 5vw, 80px));
+      max-width: 700px;
+    }
+    .project-meta .bento-text { margin-bottom: 16px; }
+
+    .project-controls { display: flex; align-items: center; gap: 24px; margin-top: 36px; }
+    .project-arrow {
+      width: 52px; height: 52px;
+      border: 1px solid var(--border);
+      background: transparent; color: #fff; font-size: 20px; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+      font-family: var(--font-body);
+    }
+    .project-arrow:hover { background: var(--accent); border-color: var(--accent); transform: scale(1.05); }
+    .project-index { font-size: 13px; letter-spacing: 2px; color: var(--text-dim); font-variant-numeric: tabular-nums; }
+
+    .bento-tag { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.6); margin-bottom: 12px; font-weight: 600; }
+    .bento-text { font-size: 15px; color: rgba(255,255,255,0.85); }
+    .bento-link { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: #ffffff; border-bottom: 2px solid rgba(255,255,255,0.3); padding-bottom: 3px; }
+    .project-slide:hover .bento-link { border-color: #ffffff; }
+
+    @media (max-width: 760px) {
+      .project-layout {
+        grid-template-columns: 1fr;
+        gap: 18px;
+      }
+      .project-title-side { font-size: clamp(48px, 18vw, 88px); }
+      .collage { aspect-ratio: 4 / 5; }
+      .collage-title {
+        mix-blend-mode: normal; color: #fff;
+        text-shadow: 0 4px 20px rgba(0,0,0,0.6);
+        font-size: clamp(42px, 16vw, 72px);
+        left: 5%; right: 5%; max-width: none;
+      }
+      .project-meta { margin-left: 0; }
+    }
+
+    /* === MASKEN-REVEAL === */
+    .mask-reveal { overflow: hidden; will-change: clip-path; }
+    .mask-reveal img { display: block; width: 100%; height: auto; }
+
+    /* === FOTOGRAFIE === */
+    .photo-heading { padding: 0 20px; margin-bottom: 40px; }
+    .photo-heading .section-title {
+      font-family: var(--font-display);
+      font-style: normal;
+      font-weight: 700;
+      font-size: clamp(44px, 7vw, 110px);
+      border-left: none; padding-left: 0;
+      letter-spacing: -1px; text-transform: none;
+      margin-bottom: 0;
+    }
+    .photo-masonry { column-count: 3; column-gap: 20px; padding: 0 20px; }
+    .photo-frame {
+      break-inside: avoid; margin-bottom: 24px; position: relative;
+      transition: transform 0.45s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.45s ease;
+      will-change: transform;
+    }
+    .photo-frame:hover {
+      transform: translateY(-5px) scale(1.018);
+      z-index: 5;
+      box-shadow: 0 18px 34px rgba(0,0,0,0.32);
+    }
+    .photo-frame .mask-reveal img {
+      transition: transform 0.55s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    .photo-frame:hover .mask-reveal img { transform: scale(1.025); }
+    .photo-index { display: block; margin-top: 10px; font-size: 12px; letter-spacing: 1px; text-transform: uppercase; color: var(--text-dim); }
+    @media (max-width: 1100px) { .photo-masonry { column-count: 2; } }
+    @media (max-width: 640px) { .photo-masonry { column-count: 1; } }
+
+    /* === MAGAZIN === */
+    .magazin-showcase { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 24px; padding: 0 20px; }
+    .magazin-spread {
+      position: relative;
+      background: rgba(20, 22, 26, 0.6);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.1), 0 12px 28px rgba(0,0,0,0.35);
+      transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.4s ease;
+    }
+    .magazin-spread::after {
+      content: "";
+      position: absolute; inset: 0;
+      background: rgba(8, 8, 10, 0.42);
+      pointer-events: none;
+      opacity: 1;
+      transition: opacity 0.35s ease;
+      z-index: 2;
+    }
+    .magazin-spread .mask-reveal { position: relative; z-index: 0; }
+    .magazin-spread .mask-reveal img {
+      filter: grayscale(0.9) brightness(0.72);
+      transition: transform 0.65s cubic-bezier(0.25, 1, 0.5, 1), filter 0.35s ease;
+    }
+    .magazin-spread:hover { transform: translateY(-6px); border-color: var(--border-strong); }
+    .magazin-spread:hover::after { opacity: 0; }
+    .magazin-spread:hover .mask-reveal img { transform: scale(1.035); filter: grayscale(0) brightness(1); }
+    .magazin-caption { padding: 18px 22px 22px; font-size: 12px; letter-spacing: 1px; text-transform: uppercase; color: var(--text-dim); border-top: 1px solid var(--border); }
+    .magazin-caption strong { color: #fff; display: block; font-family: var(--font-display); font-size: 17px; margin-bottom: 4px; letter-spacing: 0; text-transform: none; }
+
+    /* === LIGHTBOX === */
+    .lightbox-overlay {
+      position: fixed; inset: 0;
+      background: rgba(5,5,6,0.94);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.4s ease;
+      z-index: 3000; padding: 60px 40px;
+    }
+    .lightbox-overlay.active { opacity: 1; pointer-events: auto; }
+    .lightbox-img {
+      max-width: 90vw; max-height: 85vh; object-fit: contain;
+      border: 1px solid var(--border);
+      transform: scale(0.96);
+      transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+      box-shadow: 0 30px 70px rgba(0,0,0,0.7);
+    }
+    .lightbox-overlay.active .lightbox-img { transform: scale(1); }
+    .lightbox-close {
+      position: fixed; top: 28px; right: 32px;
+      background: rgba(20,20,22,0.7); border: 1px solid var(--border);
+      width: 44px; height: 44px; color: #fff; font-size: 24px; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: border-color 0.3s ease, 0.3s ease;
+    }
+    .lightbox-close:hover { border-color: #fff; background: rgba(255,255,255,0.1); }
+
+    /* === KONTAKT TRIGGER & MODAL === */
+    .contact-trigger-btn {
+      position: fixed; right: 32px; bottom: 32px; width: 58px; height: 58px;
+      background: rgba(24,24,27,0.85);
+      border: 1px solid var(--border);
+      color: #fff; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+      z-index: 999;
+      transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1), 0.35s ease, border-color 0.35s ease;
+    }
+    .contact-trigger-btn:hover { transform: translateY(-4px) scale(1.05); background: var(--accent); border-color: var(--accent); }
+
+    .contact-modal-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(6px);
+      z-index: 2000; opacity: 0; pointer-events: none; transition: opacity 0.4s ease;
+    }
+    .contact-modal-overlay.active { opacity: 1; pointer-events: auto; }
+
+    .contact-modal {
+      position: fixed; top: 50%; left: 50%;
+      transform: translate(-50%, -50%) scale(0.9);
+      width: 90%; max-width: 750px; height: 36vh; min-height: 320px;
+      background: rgba(15,15,17,0.85);
+      backdrop-filter: blur(16px) saturate(160%);
+      -webkit-backdrop-filter: blur(16px) saturate(160%);
+      border: 1px solid var(--border);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.1), 0 30px 70px rgba(0,0,0,0.75);
+      z-index: 2001; padding: 35px 45px;
+      display: flex; flex-direction: column; justify-content: space-between;
+      opacity: 0; pointer-events: none;
+      transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+      overflow-y: auto;
+    }
+    .contact-modal.open { opacity: 1; pointer-events: auto; transform: translate(-50%, -50%) scale(1); }
+    .modal-header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+    .modal-title { font-size: 22px; color: #ffffff; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+    .modal-close { background: none; border: none; color: #fff; font-size: 26px; cursor: pointer; }
+    .modal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; align-items: center; }
+    .modal-info-box p { font-size: 15px; color: #aaa; margin-bottom: 10px; }
+    .modal-info-box strong { color: var(--accent); display: block; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; }
+    .modal-form { display: flex; flex-direction: column; gap: 12px; }
+    .modal-form input, .modal-form textarea { background: rgba(255,255,255,0.05); border: 1px solid var(--border); padding: 10px 14px; color: #fff; font-size: 14px; font-family: var(--font-body); }
+    .modal-form button { background: #ffffff; color: #0a0a0b; border: none; padding: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; transition: background 0.3s, color 0.3s; }
+    .modal-form button:hover { background: var(--accent); color: #fff; }
+
+   /* === NEUER FOOTER (MIT HINTERGRUND & COPYRIGHT) === */
+    .startseite-footer {
+      position: relative;
+      /* Hier das 'center' durch 'center 20%' ersetzen (oder 'top'), damit der obere Teil des Bildes wandert */
+      background: linear-gradient(180deg, rgba(6,6,7,1) 0%, rgba(6,6,7,0.75) 50%, rgba(6,6,7,0.95) 100%), url('media/footer.jpg') center 20% / cover no-repeat;
+      color: #ffffff;
+      padding: 100px 20px 50px 20px; text-align: center;
+      border-top: 1px solid #1c1c1c;
+      min-height: 55vh;
+      display: flex; flex-direction: column; justify-content: center;
+    }
+    
+    .footer-logo {
+      width: 110px; /* <-- HIER kannst du die Größe für das Footer-Logo unabhängig anpassen (z.B. 100px, 120px) */
+      margin: 0 auto 35px auto;
+      opacity: 0.6;
+      transition: opacity 0.3s ease;
+      display: block;
+      background: none !important; /* Entfernt eventuelle Boxen im CSS */
+      border: none !important;
+    }
+    
+    .footer-logo:hover { opacity: 1; }
+
+    .footer-content { max-width: 700px; margin: 0 auto; }
+    .footer-content h3 { font-size: 26px; margin-bottom: 12px; font-weight: 600; }
+    .footer-content p { color: #aaa; font-size: 15px; margin-bottom: 35px; }
+
+    .btn-mailto {
+      position: relative; display: inline-block; overflow: hidden;
+      background-color: #ffffff; color: #0a0a0b; text-decoration: none;
+      padding: 15px 38px; font-size: 13px; text-transform: uppercase; letter-spacing: 1.5px; font-weight: 600;
+      border: none; cursor: pointer; font-family: var(--font-body);
+      transition: color 0.4s ease;
+    }
+    .btn-mailto::before {
+      content: ""; position: absolute; inset: 0; background: var(--accent);
+      transform: translateX(-101%);
+      transition: transform 0.45s cubic-bezier(0.25, 1, 0.5, 1);
+      z-index: 0;
+    }
+    .btn-mailto:hover::before { transform: translateX(0); }
+    .btn-mailto:hover { color: #ffffff; }
+    .btn-mailto span { position: relative; z-index: 1; }
+
+    .footer-bottom { 
+      margin-top: 70px; padding-top: 25px; border-top: 1px solid rgba(255,255,255,0.1); 
+      font-size: 12px; color: #555; text-transform: uppercase; letter-spacing: 1px; 
+    }
+    
+    .copyright-notice {
+      font-size: 11px; color: #777; margin-top: 15px; 
+      max-width: 600px; margin-left: auto; margin-right: auto; 
+      line-height: 1.6; text-transform: none; letter-spacing: 0.5px;
+    }
+
+    /* === RESPONSIVE === */
+    @media (max-width: 1100px) {
+      .contact-modal { height: auto; max-height: 80vh; }
+      .modal-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 768px) {
+      .section-container { padding-top: 120px; }
+      .contact-trigger-btn { right: 20px; bottom: 20px; width: 52px; height: 52px; }
+      .lightbox-close { top: 16px; right: 16px; }
+    }
+    @media (max-width: 640px) {
+      .hero-headline .line-2 { margin-left: 4vw; }
+      .hero-headline .line-3 { margin-left: 1vw; }
+      .hero-identity { top: 50px; left: 50px; }
+    }
+    @media (max-width: 480px) {
+      .identity-name { font-size: 15px; }
+      .identity-avatar { width: 50px; height: 50px; }
+    }
+
+    /* === REDUZIERTE BEWEGUNG === */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="top-nav" id="topNav">
+    <div class="nav-links" id="navLinks">
+      <a href="#projekte" class="nav-item" data-de="Projekte" data-en="Projects">Projekte</a>
+      <a href="#fotografie" class="nav-item" data-de="Fotografie" data-en="Photography">Fotografie</a>
+      <a href="#magazin" class="nav-item" data-de="Magazin" data-en="Magazine">Magazin</a>
+      <a href="media/Niklas_Rothweiler_Lebenslauf.pdf" target="_blank" rel="noopener" data-de="Lebenslauf" data-en="Resume">Lebenslauf</a>
+      <a href="#kontakt" class="nav-item" data-de="Kontakt" data-en="Contact">Kontakt</a>
+      <!-- Der neue Sprachen-Button -->
+      <button id="langToggleBtn" class="lang-toggle" onclick="toggleLanguage()">EN</button>
+      <div class="nav-indicator" id="navIndicator"></div>
+    </div>
+  </nav>
+
+  <header class="hero-header">
+    <div class="hero-overlay"></div>
+
+    <div class="hero-identity">
+      <img src="media/profile.svg" alt="Niklas Rothweiler" class="identity-avatar">
+      <span class="identity-name">Niklas Rothweiler</span>
+    </div>
+
+    <div class="hero-content">
+      <p class="hero-kicker" data-de="Design. Konzept. Text." data-en="Design. Concept. Text.">Design. Konzept. Text.</p>
+      <h1 class="hero-headline">
+        <span class="line line-1" data-de="Visuelle Kommunikation," data-en="Visual Communication,">Visuelle Kommunikation,</span>
+        <span class="line line-2" data-de="Digitales Design" data-en="Digital Design">Digitales Design</span>
+        <span class="line line-3" data-de="&amp; Storytelling" data-en="&amp; Storytelling">&amp; Storytelling</span>
+      </h1>
+    </div>
+
+    <div class="scroll-cue"></div>
+  </header>
+
+  <section id="projekte" class="section-container">
+    <h2 class="section-title reveal" data-de="Ausgewählte Projekte" data-en="Selected Projects">Ausgewählte Projekte</h2>
+
+    <div class="project-carousel reveal">
+      <div class="project-track">
+        <a href="weyermann/index.html" class="project-slide is-active" data-index="0">
+          <div class="project-layout">
+            <div class="project-title-side" style="margin-left: -5vw; white-space: nowrap;">Weyermann</div>
+            <div>
+              <div class="collage">
+                <img src="media/weyermann_preview.jpg" alt="Weyermann Malz" class="collage-img" loading="lazy" decoding="async">
+                <span class="collage-title" data-de="Malz" data-en="Malt">Malz</span>
+              </div>
+              <div class="project-meta">
+                <span class="bento-tag">Case Study • Social Media</span>
+                <p class="bento-text" data-de="Instagram Mockup + Blog zur Demonstration von Content Creation, Storytelling & Social Media Konzeption. Komplette visuelle Umsetzung & Programmierung." data-en="Instagram mockup + blog demonstrating content creation, storytelling & social media conception. Complete visual implementation & programming.">Instagram Mockup + Blog zur Demonstration von Content Creation, Storytelling & Social Media Konzeption. Komplette visuelle Umsetzung & Programmierung.</p>
+                <span class="bento-link" data-de="Projekt ansehen" data-en="View Project">Projekt ansehen</span>
+              </div>
+            </div>
+          </div>
+        </a>
+
+        <a href="minges/index.html" class="project-slide" data-index="1">
+          <div class="project-layout">
+            <div class="project-title-side">Minges</div>
+            <div>
+              <div class="collage">
+                <img src="media/minges_preview.jpg" alt="Minges Kaffee" class="collage-img" loading="lazy" decoding="async">
+                <span class="collage-title" data-de="Kaffee" data-en="Coffee">Kaffee</span>
+              </div>
+              <div class="project-meta">
+                <span class="bento-tag">Case Study • Web & Social</span>
+                <p class="bento-text" data-de="Instagram-Mockup als Interaktive Landingpage zur Demonstration von Content Creation für Kaffeeprodukte. Komplette visuelle Umsetzung & Programmierung." data-en="Instagram mockup as an interactive landing page demonstrating content creation for coffee products. Complete visual implementation & programming.">Instagram-Mockup als Interaktive Landingpage zur Demonstration von Content Creation für Kaffeeprodukte. Komplette visuelle Umsetzung & Programmierung.</p>
+                <span class="bento-link" data-de="Projekt ansehen" data-en="View Project">Projekt ansehen</span>
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <div class="project-controls">
+        <button class="project-arrow" id="prevProject" aria-label="Vorheriges Projekt" type="button">&#8592;</button>
+        <div class="project-index"><span id="projectCurrent">01</span> / <span id="projectTotal">02</span></div>
+        <button class="project-arrow" id="nextProject" aria-label="Nächstes Projekt" type="button">&#8594;</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="fotografie" class="section-container full-bleed">
+    <div class="photo-heading">
+      <h2 class="section-title reveal" data-de="Fotografie &amp; Visuals" data-en="Photography &amp; Visuals">Fotografie &amp; Visuals</h2>
+    </div>
+    <div class="photo-masonry">
+      <div class="photo-frame"><div class="mask-reveal"><img src="media/foto1.jpg" alt="Das alte Rathaus in Bamberg bei Schneefall." loading="lazy" decoding="async"></div><span class="photo-index" data-de="01 — Altes Rathaus, Bamberg" data-en="01 — Old Town Hall, Bamberg">01 — Rathaus Bamberg im Schnee</span></div>
+      <div class="photo-frame"><div class="mask-reveal"><img src="media/foto2.jpg" alt="Aussicht über Ålesund in Norwegen." loading="lazy" decoding="async"></div><span class="photo-index" data-de="02 — Ålesund, Norwegen" data-en="02 — Ålesund, Norway">02 — Ålesund, Norwegen</span></div>
+      <div class="photo-frame"><div class="mask-reveal"><img src="media/foto3.jpg" alt="Japanischer Bereich im Tivoli in Kopenhagen." loading="lazy" decoding="async"></div><span class="photo-index" data-de="03 — Tivoli, Kopenhagen Dänemark" data-en="03 — Tivoli, Copenhagen Denmark">03 — Tivoli, Kopenhagen Dänemark</span></div>
+      <div class="photo-frame"><div class="mask-reveal"><img src="media/foto4.jpg" alt="Porsche in den Straßen von Kopenhagen." loading="lazy" decoding="async"></div><span class="photo-index" data-de="04 — Kopenhagen Dänemark" data-en="04 — Copenhagen, Denmark">04 — Kopenhagen Dänemark</span></div>
+      <div class="photo-frame"><div class="mask-reveal"><img src="media/foto5.jpg" alt="Gefrorener Alpsee unter Schloss Neuschwanstein." loading="lazy" decoding="async"></div><span class="photo-index" data-de="05 — Alpsee, Schloss Neuschwanstein" data-en="05 — Alpsee, Neuschwanstein Castle">05 — Alpsee, Schloss Neuschwanstein</span></div>
+      <div class="photo-frame"><div class="mask-reveal"><img src="media/foto6.jpg" alt="Kleiner Bach überm Lac-des-Fées in Ontario Kanada." loading="lazy" decoding="async"></div><span class="photo-index" data-de="06 — Lac-des-Fées, Ontario Kanada" data-en="06 — Lac-des-Fées, Ontario Canada">06 — Lac-des-Fées, Ontario Kanada</span></div>
+      <div class="photo-frame"><div class="mask-reveal"><img src="media/foto7.jpg" alt="CN-Tower in Toronto von unten." loading="lazy" decoding="async"></div><span class="photo-index" data-de="07 — CN Tower, Toronto Kanada" data-en="07 — CN Tower, Toronto Canada">07 — CN Tower, Toronto Kanada</span></div>
+      <div class="photo-frame"><div class="mask-reveal"><img src="media/foto8.jpg" alt="Sonnenuntergang im Museumshafen Greifswald." loading="lazy" decoding="async"></div><span class="photo-index" data-de="08 — Museumshafen, Greifswald" data-en="08 — Museum Harbor, Greifswald">08 — Museumshafen, Greifswald</span></div>
+      <div class="photo-frame"><div class="mask-reveal"><img src="media/foto9.jpg" alt="Fluss Flåmselvi bei Flåm in Norwegen." loading="lazy" decoding="async"></div><span class="photo-index" data-de="09 — Flåmselvi, Flåm Norwegen" data-en="09 — Flåmselvi, Flåm Norway">09 — Flåmselvi, Flåm Norwegen</span></div>
+      <div class="photo-frame"><div class="mask-reveal"><img src="media/foto10.jpg" alt="Blick durch einen Torbogen im Dresdner Zwinger." loading="lazy" decoding="async"></div><span class="photo-index" data-de="10 — Zwinger, Dresden" data-en="10 — Zwinger, Dresden">10 — Zwinger, Dresden</span></div>
+      <div class="photo-frame"><div class="mask-reveal"><img src="media/foto11.jpg" alt="Straßenkreuzung in Kopenhagen." loading="lazy" decoding="async"></div><span class="photo-index" data-de="11 — Kopenhagen Dänemark" data-en="11 — Copenhagen, Denmark">11 — Kopenhagen Dänemark</span></div>
+      <div class="photo-frame"><div class="mask-reveal"><img src="media/foto12.jpg" alt="Teich im japanischen Bereich im Tivoli in Kopenhagen." loading="lazy" decoding="async"></div><span class="photo-index" data-de="12 — Tivoli, Kopenhagen Dänemark" data-en="12 — Tivoli, Copenhagen Denmark">12 — Tivoli, Kopenhagen Dänemark</span></div>
+      <div class="photo-frame"><div class="mask-reveal"><img src="media/foto13.jpg" alt="Wasserdampf vor den Niagara-Fällen." loading="lazy" decoding="async"></div><span class="photo-index" data-de="13 — Niagarafälle, Ontario Kanada" data-en="13 — Niagara Falls, Ontario Canada">13 — Niagarafälle, Ontario Kanada</span></div>
+      <div class="photo-frame"><div class="mask-reveal"><img src="media/foto14.jpg" alt="Blick auf die Villa Concordia in Bamberg." loading="lazy" decoding="async"></div><span class="photo-index" data-de="14 — Villa Concordia, Bamberg" data-en="14 — Villa Concordia, Bamberg">14 — Villa Concordia, Bamberg</span></div>
+    </div>
+  </section>
+
+  <section id="magazin" class="section-container full-bleed">
+    <h2 class="section-title reveal" data-de="Magazin Layouts" data-en="Magazine Layouts">Magazin Layouts</h2>
+    <div class="magazin-showcase">
+      <div class="magazin-spread reveal">
+        <div class="mask-reveal"><img src="media/magazin_seite1.jpg" alt="Magazin Layout Seite 1" loading="lazy" decoding="async"></div>
+        <div class="magazin-caption" data-de="<strong>Layout 01</strong>Universitätsprojekt" data-en="<strong>Layout 01</strong>University Project"><strong>Layout 01</strong>Universitätsprojekt</div>
+      </div>
+      <div class="magazin-spread reveal">
+        <div class="mask-reveal"><img src="media/magazin_seite2.jpg" alt="Magazin Layout Seite 2" loading="lazy" decoding="async"></div>
+        <div class="magazin-caption" data-de="<strong>Layout 02</strong>Universitätsprojekt" data-en="<strong>Layout 02</strong>University Project"><strong>Layout 02</strong>Universitätsprojekt</div>
+      </div>
+      <div class="magazin-spread reveal">
+        <div class="mask-reveal"><img src="media/magazin_seite3.jpg" alt="Magazin Layout Seite 3" loading="lazy" decoding="async"></div>
+        <div class="magazin-caption" data-de="<strong>Layout 03</strong>Universitätsprojekt" data-en="<strong>Layout 03</strong>University Project"><strong>Layout 03</strong>Universitätsprojekt</div>
+      </div>
+    </div>
+  </section>
+
+  <footer id="kontakt" class="startseite-footer">
+    <div class="footer-content reveal">
+      
+      <img src="media/profile.svg" alt="Niklas Rothweiler" class="footer-logo">
+      
+      <h3 data-de="Lassen Sie uns ins Gespräch kommen." data-en="Let's get in touch.">Lassen Sie uns ins Gespräch kommen.</h3>
+      <p data-de="Ich freue mich über Ihr Feedback oder eine kurze Nachricht." data-en="I look forward to your feedback or a quick message.">Ich freue mich über Ihr Feedback oder eine kurze Nachricht.</p>
+      <button class="btn-mailto" id="openModalBtn"><span data-de="Nachricht schreiben" data-en="Send Message">Nachricht schreiben</span></button>
+      
+      <div class="footer-bottom">
+        <p data-de="© 2026 Niklas Rothweiler • Portfolio" data-en="© 2026 Niklas Rothweiler • Portfolio">© 2026 Niklas Rothweiler • Portfolio</p>
+        <p class="copyright-notice" data-de="Hinweis: Alle Fotografien, Videos und Designs auf dieser Website sind meine eigenen Arbeiten. Ausgenommen sind vereinzelte Platzhalter-Bilder im &quot;Weyermann&quot; Blog-Mockup zur Veranschaulichung." data-en="Note: All photographs, videos, and designs on this website are my own work. Exceptions are a few placeholder images in the &quot;Weyermann&quot; blog mockup for illustration purposes.">Hinweis: Alle Fotografien, Videos und Designs auf dieser Website sind meine eigenen Arbeiten. Ausgenommen sind vereinzelte Platzhalter-Bilder im "Weyermann" Blog-Mockup zur Veranschaulichung.</p>
+      </div>
+      
+    </div>
+  </footer>
+
+  <button class="contact-trigger-btn" id="floatingContactBtn" title="Kontakt öffnen">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+  </button>
+
+  <div class="contact-modal-overlay" id="modalOverlay"></div>
+  <div class="contact-modal" id="contactModal">
+    <div class="modal-header-row">
+      <h3 class="modal-title" data-de="Direktkontakt" data-en="Direct Contact">Direktkontakt</h3>
+      <button class="modal-close" id="closeModalBtn">&times;</button>
+    </div>
+    <div class="modal-grid">
+      <div class="modal-info-box">
+        <strong data-de="Telefon" data-en="Phone">Telefon</strong><p>+49 (0) 123 4567890</p>
+        <strong data-de="E-Mail" data-en="Email">E-Mail</strong><p>niklas.rothweiler@gmail.com</p>
+      </div>
+      <div class="modal-form">
+        <input type="email" data-de="Ihre E-Mail-Adresse" data-en="Your email address" placeholder="Ihre E-Mail-Adresse">
+        <textarea rows="2" data-de="Ihre Nachricht..." data-en="Your message..." placeholder="Ihre Nachricht..."></textarea>
+        <button type="button" onclick="alert('Nachricht gesendet!');" data-de="Absenden" data-en="Submit">Absenden</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="lightbox-overlay" id="lightboxOverlay">
+    <button class="lightbox-close" id="lightboxClose" aria-label="Schließen">&times;</button>
+    <img src="" alt="" class="lightbox-img" id="lightboxImg">
+  </div>
+
+  <!-- Hier folgt dein unveränderter <script>-Teil (plus das neue Toggle-Skript ganz unten) -->
+
+  <script>
+    // 1. Kontakt Modal
+    const modal = document.getElementById('contactModal');
+    const overlay = document.getElementById('modalOverlay');
+    const openBtn = document.getElementById('openModalBtn');
+    const floatingBtn = document.getElementById('floatingContactBtn');
+    const closeBtn = document.getElementById('closeModalBtn');
+    function toggleModal() {
+      modal.classList.toggle('open');
+      overlay.classList.toggle('active');
+    }
+    openBtn.addEventListener('click', toggleModal);
+    floatingBtn.addEventListener('click', toggleModal);
+    closeBtn.addEventListener('click', toggleModal);
+    overlay.addEventListener('click', toggleModal);
+
+    // 2. Lightbox
+    const lightboxOverlay = document.getElementById('lightboxOverlay');
+    const lightboxImg = document.getElementById('lightboxImg');
+    const lightboxClose = document.getElementById('lightboxClose');
+    function openLightbox(src, alt) {
+      lightboxImg.src = src;
+      lightboxImg.alt = alt || '';
+      lightboxOverlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeLightbox() {
+      lightboxOverlay.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+    document.querySelectorAll('.mask-reveal img').forEach(img => {
+      img.style.cursor = 'zoom-in';
+      img.addEventListener('click', () => openLightbox(img.src, img.alt));
+    });
+    lightboxClose.addEventListener('click', closeLightbox);
+    lightboxOverlay.addEventListener('click', (e) => { if (e.target === lightboxOverlay) closeLightbox(); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeLightbox(); });
+
+    // 3. Projekt-Carousel (Pfeil-Klick zum Tauschen)
+    const projectSlides = document.querySelectorAll('.project-slide');
+    const prevProjectBtn = document.getElementById('prevProject');
+    const nextProjectBtn = document.getElementById('nextProject');
+    const projectCurrentEl = document.getElementById('projectCurrent');
+    let activeProject = 0;
+    function showProject(i) {
+      activeProject = (i + projectSlides.length) % projectSlides.length;
+      projectSlides.forEach((slide, idx) => slide.classList.toggle('is-active', idx === activeProject));
+      projectCurrentEl.textContent = String(activeProject + 1).padStart(2, '0');
+    }
+    prevProjectBtn.addEventListener('click', () => showProject(activeProject - 1));
+    nextProjectBtn.addEventListener('click', () => showProject(activeProject + 1));
+
+    // 4. Scroll-Reveal für Text (einmalig)
+    document.querySelectorAll('.reveal').forEach((el, i) => {
+      el.style.setProperty('--d', (i % 6) * 0.08 + 's');
+    });
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
+    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+    // 5. Parallax für die Hero-Texte
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const heroHeader = document.querySelector('.hero-header');
+    const heroKicker = document.querySelector('.hero-kicker');
+    const heroHeadline = document.querySelector('.hero-headline');
+    
+    function updateHeroParallax() {
+      if (reduceMotion || !heroHeader || !heroKicker || !heroHeadline) return;
+      const scrollY = window.pageYOffset;
+      const heroHeight = heroHeader.offsetHeight;
+      const progress = Math.min(Math.max(scrollY / heroHeight, 0), 1);
+
+      heroKicker.style.transform = 'translate3d(0, ' + (-scrollY * 1.05) + 'px, 0)';
+      heroHeadline.style.transform = 'translate3d(0, ' + (-scrollY * 1.05) + 'px, 0)';
+      
+      heroKicker.style.opacity = String(1 - progress * 0.55);
+      heroHeadline.style.opacity = String(1 - progress * 0.4);
+    }
+
+    // 6. Masken-Reveal für Bilder (clip-path Berechnung)
+    const maskEls = document.querySelectorAll('.mask-reveal');
+    const activeMaskEls = new Set();
+
+    if (!reduceMotion && maskEls.length) {
+      const maskObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) activeMaskEls.add(entry.target);
+          else activeMaskEls.delete(entry.target);
+        });
+      }, { rootMargin: '15% 0px 15% 0px' });
+      maskEls.forEach(el => maskObserver.observe(el));
+    }
+
+    function updateMaskReveal() {
+      if (reduceMotion) return;
+      const vh = window.innerHeight;
+      activeMaskEls.forEach(el => {
+        const rect = el.getBoundingClientRect();
+        const elCenter = rect.top + rect.height / 2;
+        const viewportCenter = vh / 2;
+        const dist = Math.abs(elCenter - viewportCenter);
+        const maxDist = vh / 2 + rect.height / 2;
+        const progress = 1 - Math.min(dist / maxDist, 1);
+        const maxInset = Math.min(rect.height * 0.16, 60);
+        const inset = Math.round((1 - progress) * maxInset);
+        el.style.clipPath = 'inset(' + inset + 'px 0 ' + inset + 'px 0)';
+      });
+    }
+
+    // 7. Nav-Hintergrund + Scrollspy 
+    const topNav = document.getElementById('topNav');
+    const sections = document.querySelectorAll('section, header');
+    const navItems = document.querySelectorAll('.nav-item');
+    const indicator = document.getElementById('navIndicator');
+
+    function updateIndicator(el) {
+      if (!el) return;
+      indicator.style.width = el.offsetWidth + 'px';
+      indicator.style.left = el.offsetLeft + 'px';
+    }
+
+    function updateNavAndScrollspy() {
+      const scrollY = window.pageYOffset;
+      const heroHeight = document.querySelector('.hero-header').offsetHeight;
+      
+      // NEU: Glass-Nav wird erst ab 50px vor Ende des Headers eingeblendet
+      topNav.classList.toggle('scrolled', scrollY > (heroHeight - 50));
+
+      sections.forEach(section => {
+        const sectionHeight = section.offsetHeight;
+        const sectionTop = section.offsetTop - 150;
+        const sectionId = section.getAttribute('id');
+        if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
+          navItems.forEach(item => {
+            item.classList.remove('active');
+            if (item.getAttribute('href') === '#' + sectionId) {
+              item.classList.add('active');
+              updateIndicator(item);
+            }
+          });
+        }
+      });
+    }
+
+    // 8. LENIS SMOOTH SCROLL INITIALISIERUNG
+    const lenis = new Lenis({
+      duration: 1.5, // Bestimmt die Trägheit und Geschmeidigkeit (1.5 = seidenweich)
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), 
+      orientation: 'vertical',
+      smoothWheel: true,
+    });
+
+    // Dieser Loop ersetzt den alten Event-Listener und befeuert Lenis, Scrollspy, Masken und Parallax zeitgleich
+    function raf(time) {
+      lenis.raf(time);
+      updateNavAndScrollspy();
+      updateMaskReveal();
+      updateHeroParallax();
+      requestAnimationFrame(raf);
+    }
+    requestAnimationFrame(raf);
+
+    // Initialer Aufruf beim Laden
+    window.addEventListener('load', () => {
+      const activeItem = document.querySelector('.nav-item');
+      if (activeItem) updateIndicator(activeItem);
+      updateNavAndScrollspy();
+      updateMaskReveal();
+      updateHeroParallax();
+    });
+
+    // Event Listener für Navigations-Klicks
+    navItems.forEach(item => {
+      item.addEventListener('click', (event) => {
+        const href = item.getAttribute('href');
+        
+        // Modal bei Kontakt-Klick öffnen
+        if (href === '#kontakt') {
+          event.preventDefault();
+          modal.classList.add('open');
+          overlay.classList.add('active');
+          return;
+        }
+
+        // Bei internen Links auf der Seite weiches Scrolling via Lenis nutzen
+        if (href.startsWith('#')) {
+          event.preventDefault(); // Standard-Anker-Sprung verhindern
+          lenis.scrollTo(href, { offset: -100 }); // Puffer für die Top-Nav berücksichtigen
+        }
+        
+        navItems.forEach(nav => nav.classList.remove('active'));
+        item.classList.add('active');
+        updateIndicator(item);
+      });
+    });
+
+      // 9. SPRACHWECHSEL (DE / EN)
+    let currentLang = 'de';
+    function toggleLanguage() {
+      // Sprache wechseln
+      currentLang = currentLang === 'de' ? 'en' : 'de';
+      
+      // Alle Elemente mit Übersetzungs-Attributen finden
+      document.querySelectorAll('[data-de]').forEach(el => {
+        if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+          // Für Formularfelder den Platzhalter ändern
+          el.placeholder = el.getAttribute(`data-${currentLang}`);
+        } else {
+          // Für normalen Text den HTML-Inhalt austauschen
+          el.innerHTML = el.getAttribute(`data-${currentLang}`);
+        }
+      });
+      
+      // Button-Text aktualisieren (Zeigt immer die Sprache an, in die gewechselt werden kann)
+      const langBtn = document.getElementById('langToggleBtn');
+      if (langBtn) {
+        langBtn.textContent = currentLang === 'de' ? 'EN' : 'DE';
+      }
+
+      // Indicator-Breite nach Textwechsel neu berechnen, falls nötig
+      const activeItem = document.querySelector('.nav-item.active');
+      if (activeItem) updateIndicator(activeItem);
+    }
+
+  </script>
+</body>
+</html>
